@@ -9,10 +9,14 @@
 
 class Scene {
 public:
+    Scene(const Vec3& camPos, const Vec3& camDir);
+
     void addObj(std::shared_ptr<SceneObj> obj);
-    Img render(const Vec3& camPos, const Vec3& camDir) const;
+    Img render() const;
     
 private:
+    Vec3 camPos, camDir;
+
     std::vector<std::shared_ptr<SceneObj>> objs;
 };
 

@@ -7,6 +7,7 @@ ray-tracer: src/*.cpp include/*.hpp
 	-DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_HDRI_ENABLE=0 \
 	-I include -I /usr/include/ImageMagick-6 -I /usr/include/x86_64-linux-gnu/ImageMagick-6 -I /usr/local/include \
 	-lstdc++fs /usr/lib/x86_64-linux-gnu/libMagick++-6.Q16.so /usr/lib/x86_64-linux-gnu/libMagickCore-6.Q16.so /usr/lib/x86_64-linux-gnu/libMagickWand-6.Q16.so \
-	-o ray-tracer
+	-o ray-tracer \
+	-O3
 clean:
 	rm -f ray-tracer

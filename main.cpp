@@ -11,7 +11,7 @@
 namespace fs = std::experimental::filesystem;
 
 inline Scene buildScene1() {
-    Scene scene;
+    Scene scene(Vec3(0, 0, 0), Vec3(1, 0, 0));
     
     std::shared_ptr<Sphere> ls = std::make_shared<Sphere>();
     ls->translate(Vec3(3, 0, -1));
@@ -36,9 +36,8 @@ int main() {
     
     Img img;
     const double renderTime = timeExecutionOf([&] {
-        img = scene.render(Vec3(0, 0, 0), Vec3(1, 0, 0));
+        img = scene.render();
     });
-    std::cout << "Render time: " << renderTime << " sec" << std::endl;
     const fs::path png = "img1.png";
     img.writePng(png);
     
