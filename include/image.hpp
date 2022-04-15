@@ -3,8 +3,6 @@
 
 #include "rgb.hpp"
 
-#include <ImageMagick-6/Magick++.h>
-
 #include <experimental/filesystem>
 
 namespace fs = std::experimental::filesystem;
@@ -14,12 +12,11 @@ public:
 	static constexpr int res = 512;
     static constexpr int halfRes = res / 2;
 
-	Img();
-	void colorPixelAt(int x, int y, Rgb c);
+	void addColorAt(int x, int y, const Rgb& c);
 	void writePng(const fs::path& png);
 
 private:
-	Magick::Image img;
+    Rgb px[Img::res][Img::res];
 
 	static inline double toMagickChannel(uint8_t chan);
 };

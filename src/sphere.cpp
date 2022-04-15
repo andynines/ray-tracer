@@ -2,7 +2,7 @@
 
 Sphere::Sphere() : SceneObj() {}
 
-bool Sphere::hits(const Ray& ray) const {
+Rgb Sphere::hit(const Ray& ray) const {
     const Vec3 localRayOrigin = invTrans * ray.origin;
     const Vec3 localRayDir = (invTrans.linear() * ray.dir).normalized();
     const double x0 = localRayOrigin[0];
@@ -13,5 +13,5 @@ bool Sphere::hits(const Ray& ray) const {
     const double zd = localRayDir[2];
     const double b = 2 * (xd * x0 + yd * y0 + zd * z0);
     const double c = x0 * x0 + y0 * y0 + z0 * z0 - 1;
-    return b * b >= 4 * c;
+    return (b * b >= 4 * c) ? color : Rgb();
 }

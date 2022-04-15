@@ -9,5 +9,6 @@ ray-tracer: src/*.cpp include/*.hpp
 	-lstdc++fs /usr/lib/x86_64-linux-gnu/libMagick++-6.Q16.so /usr/lib/x86_64-linux-gnu/libMagickCore-6.Q16.so /usr/lib/x86_64-linux-gnu/libMagickWand-6.Q16.so \
 	-o ray-tracer \
 	-O3
+	
 clean:
 	rm -f ray-tracer

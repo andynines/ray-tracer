@@ -16,16 +16,19 @@ inline Scene buildScene1() {
     std::shared_ptr<Sphere> ls = std::make_shared<Sphere>();
     ls->translate(Vec3(3, 0, -1));
     ls->scale(0.4);
+    ls->paint(Rgb(128, 0, 255));
     scene.addObj(ls);
     
     std::shared_ptr<SmfModel> rabbit = std::make_shared<SmfModel>("smf/bunny200.smf");
     rabbit->translate(Vec3(4, 0, 0));
     rabbit->load();
+    rabbit->paint(Rgb(0, 255, 128));
     scene.addObj(rabbit);
     
     std::shared_ptr<Sphere> rs = std::make_shared<Sphere>();
     rs->translate(Vec3(3, 0, 1));
     rs->scale(0.4);
+    rs->paint(Rgb(255, 128, 0));
     scene.addObj(rs);
     
     return scene;

@@ -10,17 +10,17 @@ void SmfModel::load() {
     computeNormals();
 }
 
-bool SmfModel::hits(const Ray& ray) const {
+Rgb SmfModel::hit(const Ray& ray) const {
     for (int i = 0; i < indices.size(); i++) {
         const Vec3& n = normals[i];
         if (ray.dir.dot(n) > 0.0) continue;
         const IndexTriple it = indices[i];
-        const Vec3& a = vertices[it[0]];
-        const Vec3& b = vertices[it[1]];
-        const Vec3& c = vertices[it[2]];
-        if (hitsTri(ray, a, b, c, n)) return true;
+        const Vec3& v0 = vertices[it[0]];
+        const Vec3& v1 = vertices[it[1]];
+        const Vec3& v2 = vertices[it[2]];
+        if (hitsTri(ray, v0, v1, v2, n)) return color;
     }
-    return false;
+    return Rgb();
 }
 
 void SmfModel::loadGeometry() {

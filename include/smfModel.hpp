@@ -2,6 +2,7 @@
 #define COURSE_PROJECT_SMFMODEL_HPP
 
 #include "sceneObject.hpp"
+#include "rgb.hpp"
 
 #include <experimental/filesystem>
 #include <string>
@@ -14,7 +15,7 @@ public:
 	SmfModel(const fs::path& smf);
     
     void load();
-    bool hits(const Ray& ray) const override;
+    Rgb hit(const Ray& ray) const override;
 
 private:
     fs::path smf;

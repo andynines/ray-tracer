@@ -20,7 +20,7 @@ Img Scene::render() const {
                 ((Img::halfRes - i - 0.5) * pxLength * up);
             const Ray pxRay(camPos, projPlaneHit - camPos);
             for (const std::shared_ptr<SceneObj>& obj : objs)
-                if (obj->hits(pxRay)) img.colorPixelAt(j, i, Rgb(255, 255, 255));
+                img.addColorAt(j, i, obj->hit(pxRay));
         }
     }
     return img;
