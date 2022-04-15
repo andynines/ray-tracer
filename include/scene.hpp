@@ -2,6 +2,7 @@
 #define COURSE_PROJECT_SCENE_HPP
 
 #include "image.hpp"
+#include "pointLight.hpp"
 #include "sceneObject.hpp"
 
 #include <memory>
@@ -12,12 +13,15 @@ public:
     Scene(const Vec3& camPos, const Vec3& camDir);
 
     void addObj(std::shared_ptr<SceneObj> obj);
-    Img render() const;
+    void addPointLight(const PointLight& pl);
+    void renderTo(Img& img) const;
     
 private:
-    Vec3 camPos, camDir;
+    static constexpr double fov = toRad(56);
 
+    Vec3 camPos, camDir;
     std::vector<std::shared_ptr<SceneObj>> objs;
+    std::vector<PointLight> pointLights;
 };
 
 #endif //COURSE_PROJECT_SCENE_HPP

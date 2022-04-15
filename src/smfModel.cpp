@@ -10,7 +10,7 @@ void SmfModel::load() {
     computeNormals();
 }
 
-Rgb SmfModel::hit(const Ray& ray) const {
+Rgb SmfModel::hit(const Ray& ray, const std::vector<PointLight>& pointLights) const {
     for (int i = 0; i < indices.size(); i++) {
         const Vec3& n = normals[i];
         if (ray.dir.dot(n) > 0.0) continue;
@@ -18,7 +18,7 @@ Rgb SmfModel::hit(const Ray& ray) const {
         const Vec3& v0 = vertices[it[0]];
         const Vec3& v1 = vertices[it[1]];
         const Vec3& v2 = vertices[it[2]];
-        if (hitsTri(ray, v0, v1, v2, n)) return color;
+        if (hitsTri(ray, v0, v1, v2, n)) return ambient;
     }
     return Rgb();
 }

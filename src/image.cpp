@@ -13,12 +13,8 @@ void Img::writePng(const fs::path& png) {
     for (int x = 0; x < Img::res; x++) {
         for (int y = 0; y < Img::res; y++) {
             const Rgb& c = px[x][y];
-            img.pixelColor(x, y, Magick::ColorRGB(toMagickChannel(c.r), toMagickChannel(c.g), toMagickChannel(c.b)));
+            img.pixelColor(x, y, Magick::ColorRGB(c.r, c.g, c.b));
         }
     }
 	img.write(png);
-}
-
-double Img::toMagickChannel(uint8_t chan) {
-	return static_cast<double>(chan) / 255.0;
 }

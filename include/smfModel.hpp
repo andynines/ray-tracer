@@ -1,8 +1,9 @@
 #ifndef COURSE_PROJECT_SMFMODEL_HPP
 #define COURSE_PROJECT_SMFMODEL_HPP
 
-#include "sceneObject.hpp"
+#include "pointLight.hpp"
 #include "rgb.hpp"
+#include "sceneObject.hpp"
 
 #include <experimental/filesystem>
 #include <string>
@@ -15,7 +16,7 @@ public:
 	SmfModel(const fs::path& smf);
     
     void load();
-    Rgb hit(const Ray& ray) const override;
+    Rgb hit(const Ray& ray, const std::vector<PointLight>& pointLights) const override;
 
 private:
     fs::path smf;

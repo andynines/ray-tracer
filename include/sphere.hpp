@@ -2,16 +2,17 @@
 #define COURSE_PROJECT_SPHERE_HPP
 
 #include "math.hpp"
+#include "pointLight.hpp"
 #include "rgb.hpp"
 #include "sceneObject.hpp"
 
-#include <iostream>
+#include <vector>
 
 class Sphere : public SceneObj {
 public:
     Sphere();
 
-	Rgb hit(const Ray& ray) const override;
+	Rgb hit(const Ray& ray, const std::vector<PointLight>& pointLights) const override;
 };
 
 #endif //COURSE_PROJECT_SPHERE_HPP

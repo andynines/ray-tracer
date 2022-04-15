@@ -3,6 +3,7 @@
 
 #include "rgb.hpp"
 
+#include <array>
 #include <experimental/filesystem>
 
 namespace fs = std::experimental::filesystem;
@@ -16,9 +17,7 @@ public:
 	void writePng(const fs::path& png);
 
 private:
-    Rgb px[Img::res][Img::res];
-
-	static inline double toMagickChannel(uint8_t chan);
+    std::array<std::array<Rgb, Img::res>, Img::res> px;
 };
 
 #endif //COURSE_PROJECT_IMG_HPP
