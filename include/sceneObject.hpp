@@ -12,21 +12,23 @@ public:
     SceneObj() { trans.setIdentity(); invTrans.setIdentity(); }
 
     virtual Rgb hit(const Ray& ray, const std::vector<PointLight>& pointLights) const = 0;
+    virtual void load() = 0;
     
     void translate(const Vec3& t) { trans = trans.translate(invTrans * t); updateInvTrans(); }
     void rotate(double ang, const Vec3& ax) { trans = trans.rotate(AngleAxis(toRad(ang), ax)); updateInvTrans(); }
     void scale(double c) { trans *= Scaling(c); updateInvTrans(); }
-    void style(const Rgb& ambient, const Rgb& specular, const Rgb& diffuse, double shiny) {
-        this->ambient = ambient;
-        this->specular = specular;
-        this->diffuse = diffuse;
-        this->shiny = shiny;
+    void color(const Rgb& c) { surfColor = c; }
+    void setMaterial(double ka, double ks, double kd) {
+        this->ka = ka;
+        this->ks = ks;
+        this->kd = kd;
     }
+    void setShiny(double s) { shiny = s; }
     
 protected:
     Transform trans, invTrans;
-    Rgb ambient, specular, diffuse;
-    double shiny;
+    Rgb surfColor;
+    double ka, ks, kd, shiny;
     
     void updateInvTrans() { invTrans = trans.inverse(); }
 };

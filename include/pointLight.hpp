@@ -5,10 +5,6 @@
 #include "rgb.hpp"
 
 struct PointLight {
-    static constexpr double ka = 0.1;
-    static constexpr double ks = 1.0;
-    static constexpr double kd = 0.5;
-    
     Vec3 pos;
     Rgb color;
     

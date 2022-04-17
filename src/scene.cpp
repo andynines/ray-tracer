@@ -1,7 +1,10 @@
 #include "math.hpp"
 #include "scene.hpp"
 
-Scene::Scene(const Vec3& camPos, const Vec3& camDir) : camPos(camPos), camDir(camDir) {}
+void Scene::setCam(const Vec3& camPos, const Vec3& camDir) {
+    this->camPos = camPos;
+    this->camDir = camDir;
+}
 
 void Scene::addObj(std::shared_ptr<SceneObj> obj) {
     objs.emplace_back(obj);

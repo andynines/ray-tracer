@@ -13,6 +13,7 @@ public:
     Sphere();
 
 	Rgb hit(const Ray& ray, const std::vector<PointLight>& pointLights) const override;
+    void load() override;
 };
 
 #endif //COURSE_PROJECT_SPHERE_HPP

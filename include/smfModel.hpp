@@ -15,8 +15,8 @@ class SmfModel : public SceneObj {
 public:
 	SmfModel(const fs::path& smf);
     
-    void load();
     Rgb hit(const Ray& ray, const std::vector<PointLight>& pointLights) const override;
+    void load() override;
 
 private:
     fs::path smf;
@@ -26,7 +26,7 @@ private:
     
     void loadGeometry();
     void computeNormals();
-    inline bool hitsTri(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c, const Vec3& n) const;
+    inline bool hitsTri(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c) const;
     inline double det33(double a, double b, double c, double d, double e, double f, double g, double h, double i) const;
     std::vector<std::string> tokenize(const std::string& line);
 };

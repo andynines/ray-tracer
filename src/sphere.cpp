@@ -9,5 +9,7 @@ Rgb Sphere::hit(const Ray& ray, const std::vector<PointLight>& pointLights) cons
     const double c = localRayOrigin.dot(localRayOrigin) - 1;
     const double det = b * b - 4 * c;
     if (det < 0.0) return Rgb();
-    else return ambient;
+    else return surfColor;
 }
+
+void Sphere::load() {}

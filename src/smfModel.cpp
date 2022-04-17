@@ -1,14 +1,10 @@
+#include "fileTokenReader.hpp"
 #include "smfModel.hpp"
 
 #include <fstream>
 #include <sstream>
 
 SmfModel::SmfModel(const fs::path& smf) : SceneObj(), smf(smf) {}
-
-void SmfModel::load() {
-    loadGeometry();
-    computeNormals();
-}
 
 Rgb SmfModel::hit(const Ray& ray, const std::vector<PointLight>& pointLights) const {
     for (int i = 0; i < indices.size(); i++) {
@@ -18,34 +14,39 @@ Rgb SmfModel::hit(const Ray& ray, const std::vector<PointLight>& pointLights) co
         const Vec3& v0 = vertices[it[0]];
         const Vec3& v1 = vertices[it[1]];
         const Vec3& v2 = vertices[it[2]];
-        if (hitsTri(ray, v0, v1, v2, n)) return ambient;
+        if (hitsTri(ray, v0, v1, v2)) return surfColor;
     }
     return Rgb();
+}
+
+void SmfModel::load() {
+    loadGeometry();
+    computeNormals();
 }
 
 void SmfModel::loadGeometry() {
     vertices.clear();
     indices.clear();
-    std::ifstream ifs(smf);
-	std::string line;
-	while (std::getline(ifs, line)) {
-		const std::vector<std::string> tokens = tokenize(line);
-		switch (tokens[0][0]) {
-			case '#':
-				continue;
-			case 'v':
+    FileTokenReader reader(smf);
+    while (reader.hasNext()) {
+        switch (reader.readString()[0]) {
+            case '#':
+                continue;
+            case 'v':
                 vertices.emplace_back(trans * Vec3(
-                    std::stod(tokens[1]),
-                    std::stod(tokens[2]),
-                    std::stod(tokens[3])));
-				break;
-			case 'f':
-				indices.emplace_back(
-						std::stoi(tokens[1]) - 1,
-						std::stoi(tokens[2]) - 1,
-						std::stoi(tokens[3]) - 1);
-		}
-	}
+                    reader.readFloat(),
+                    reader.readFloat(),
+                    reader.readFloat()
+                ));
+                break;
+            case 'f':
+                indices.emplace_back(
+                    reader.readInt() - 1,
+                    reader.readInt() - 1,
+                    reader.readInt() - 1
+                );
+        }
+    }
 }
 
 void SmfModel::computeNormals() {
@@ -55,12 +56,12 @@ void SmfModel::computeNormals() {
         Vec3 v0 = vertices[it[0]];
         Vec3 v1 = vertices[it[1]];
         Vec3 v2 = vertices[it[2]];
-        Vec3 n = (trans.linear() * (v1 - v0).cross(v2 - v0)).normalized();
+        Vec3 n = ((v1 - v0).cross(v2 - v0)).normalized();
         normals.emplace_back(n);
     }
 }
 
-bool SmfModel::hitsTri(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c, const Vec3& n) const {
+bool SmfModel::hitsTri(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c) const {
     const double detA = det33(
         a[0] - b[0], a[0] - c[0], ray.dir[0],
         a[1] - b[1], a[1] - c[1], ray.dir[1],
