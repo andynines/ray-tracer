@@ -1,13 +1,13 @@
 #include "fileTokenReader.hpp"
 #include "smfModel.hpp"
 
-#include <fstream>
 #include <sstream>
+#include <utility>
 
-SmfModel::SmfModel(const fs::path& smf) : SceneObj(), smf(smf) {}
+SmfModel::SmfModel(fs::path smf) : SceneObj(), smf(std::move(smf)) {}
 
 void SmfModel::hit(const Ray& ray, const std::vector<PointLight>& pointLights, Hit& closestHit) const {
-    for (int i = 0; i < indices.size(); i++) {
+    for (size_t i = 0; i < indices.size(); i++) {
         const Vec3& n = normals[i];
         if (ray.dir.dot(n) >= 0.0) continue;
         const IndexTriple it = indices[i];
@@ -57,7 +57,7 @@ void SmfModel::computeNormals() {
     }
 }
 
-double SmfModel::calcTriHit(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c) const {
+double SmfModel::calcTriHit(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c) {
     const double detA = det33(
         a[0] - b[0], a[0] - c[0], ray.dir[0],
         a[1] - b[1], a[1] - c[1], ray.dir[1],
@@ -82,7 +82,7 @@ double SmfModel::calcTriHit(const Ray& ray, const Vec3& a, const Vec3& b, const 
     ) / detA;
 }
 
-double SmfModel::det33(double a, double b, double c, double d, double e, double f, double g, double h, double i) const {
+double SmfModel::det33(double a, double b, double c, double d, double e, double f, double g, double h, double i) {
     return a*(e*i - f*h) - b*(d*i - f*g) + c*(d*h - e*g);
 }
 
