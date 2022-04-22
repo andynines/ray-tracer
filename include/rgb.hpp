@@ -1,7 +1,7 @@
 #ifndef COURSE_PROJECT_RGB_HPP
 #define COURSE_PROJECT_RGB_HPP
 
-struct Rgb {
+struct Rgb { // TODO: Get rid of me. I'm just a Vec3.
 	double r, g, b;
     
     Rgb() : r(0.0), g(0.0), b(0.0) {}

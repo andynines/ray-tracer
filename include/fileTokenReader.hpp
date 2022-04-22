@@ -3,19 +3,18 @@
 
 #include "math.hpp"
 #include "rgb.hpp"
+#include "stdFilesystem.hpp"
 
-#include <experimental/filesystem>
 #include <fstream>
 #include <functional>
 #include <string>
-
-namespace fs = std::experimental::filesystem;
 
 class FileTokenReader {
 public:
     explicit FileTokenReader(const fs::path& file);
     
     bool hasNext() const;
+    // TODO: Use a template to generate these functions.
     int readInt();
     double readFloat();
     Vec3 readVec3();

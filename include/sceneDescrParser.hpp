@@ -1,31 +1,34 @@
-#ifndef COURSE_PROJECT_SCENEBUILDER_HPP
-#define COURSE_PROJECT_SCENEBUILDER_HPP
+#ifndef COURSE_PROJECT_SCENEDESCRPARSER_HPP
+#define COURSE_PROJECT_SCENEDESCRPARSER_HPP
 
 #include "scene.hpp"
 #include "sceneObject.hpp"
+#include "stdFilesystem.hpp"
 
-#include <experimental/filesystem>
 #include <functional>
 #include <memory>
 #include <unordered_map>
 
-namespace fs = std::experimental::filesystem;
-
-class SceneBuilder {
+class SceneDescrParser {
 public:
-    explicit SceneBuilder(const fs::path& descr);
+    explicit SceneDescrParser(const fs::path& descr);
     
-    Scene build();
+    Scene parse();
+    std::string getRawDescription() const;
     
 private:
+    inline static const std::string commentDelimiter = "#";
+
+    fs::path descr;
     Scene scene;
     FileTokenReader reader;
     std::unordered_map<std::string, std::function<void()>> commands;
     std::shared_ptr<SceneObj> currentObj;
     
     void defineCommands();
+    void consumeComment();
     void loadCurrentObj();
     inline void lowercase(std::string& s) const;
 };
 
-#endif //COURSE_PROJECT_SCENEBUILDER_HPP
+#endif //COURSE_PROJECT_SCENEDESCRPARSER_HPP

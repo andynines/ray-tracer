@@ -4,18 +4,16 @@
 #include "pointLight.hpp"
 #include "rgb.hpp"
 #include "sceneObject.hpp"
+#include "stdFilesystem.hpp"
 
-#include <experimental/filesystem>
 #include <string>
 #include <vector>
-
-namespace fs = std::experimental::filesystem;
 
 class SmfModel : public SceneObj {
 public:
 	SmfModel(const fs::path& smf);
     
-    Rgb hit(const Ray& ray, const std::vector<PointLight>& pointLights) const override;
+    void hit(const Ray& ray, const std::vector<PointLight>& pointLights, Hit& closestHit) const override;
     void load() override;
 
 private:
@@ -26,7 +24,7 @@ private:
     
     void loadGeometry();
     void computeNormals();
-    inline bool hitsTri(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c) const;
+    inline double calcTriHit(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c) const;
     inline double det33(double a, double b, double c, double d, double e, double f, double g, double h, double i) const;
     std::vector<std::string> tokenize(const std::string& line);
 };

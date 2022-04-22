@@ -3,8 +3,8 @@
 
 #include <ImageMagick-6/Magick++.h>
 
-void Img::addColorAt(int x, int y, const Rgb& c) {
-    px[x][y] += c;
+void Img::setColorAt(int x, int y, const Rgb& c) {
+    px[x][y] = c;
 }
 
 void Img::writePng(const fs::path& png) {

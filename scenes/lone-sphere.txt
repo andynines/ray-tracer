@@ -1,0 +1,11 @@
+# This is a comment #
+
+camera 0 0 0 1 0 0
+sphere
+translate 3 0 0
+scale 10
+color 0 0 1
+material 0.2 1 0.5
+shiny 32
+
+pointlight 3 3 0 0 1 0

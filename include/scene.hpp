@@ -10,6 +10,8 @@
 
 class Scene {
 public:
+    Scene();
+
     void setCam(const Vec3& camPos, const Vec3& camDir);
     void addObj(std::shared_ptr<SceneObj> obj);
     void addPointLight(const PointLight& pl);
@@ -18,7 +20,8 @@ public:
 private:
     static constexpr double fov = toRad(56);
 
-    Vec3 camPos, camDir;
+    Vec3 camPos, camDir, projPlaneCenter, right;
+    double pxLength;
     std::vector<std::shared_ptr<SceneObj>> objs;
     std::vector<PointLight> pointLights;
 };

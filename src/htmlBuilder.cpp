@@ -4,7 +4,15 @@
 #include <fstream>
 
 void HtmlBuilder::addHeader(const std::string& s) {
-    ss << "<h1>" << s << "</h1>" << std::endl;
+    addElement("h1", s);
+}
+
+void HtmlBuilder::addHr() {
+    ss << "<hr>" << std::endl;
+}
+
+void HtmlBuilder::addPre(const std::string& s) {
+    addElement("pre", s);
 }
 
 void HtmlBuilder::addImg(const fs::path& img) {
@@ -12,7 +20,7 @@ void HtmlBuilder::addImg(const fs::path& img) {
 }
 
 void HtmlBuilder::addP(const std::string& s) {
-    ss << "<p>" << s << "</p>" << std::endl;
+    addElement("p", s);
 }
 
 void HtmlBuilder::write(const std::string& title, const fs::path& path) {
@@ -24,4 +32,8 @@ void HtmlBuilder::write(const std::string& title, const fs::path& path) {
     ofs << ss.rdbuf();
     ofs << "</body>" << std::endl;
     ofs << "</html>" << std::endl;
+}
+
+void HtmlBuilder::addElement(const std::string& element, const std::string& innerHtml) {
+    ss << "<" << element << ">" << innerHtml << "</" << element << ">" << std::endl;
 }

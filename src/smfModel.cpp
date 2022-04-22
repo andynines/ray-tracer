@@ -6,17 +6,18 @@
 
 SmfModel::SmfModel(const fs::path& smf) : SceneObj(), smf(smf) {}
 
-Rgb SmfModel::hit(const Ray& ray, const std::vector<PointLight>& pointLights) const {
+void SmfModel::hit(const Ray& ray, const std::vector<PointLight>& pointLights, Hit& closestHit) const {
     for (int i = 0; i < indices.size(); i++) {
         const Vec3& n = normals[i];
-        if (ray.dir.dot(n) > 0.0) continue;
+        if (ray.dir.dot(n) >= 0.0) continue;
         const IndexTriple it = indices[i];
         const Vec3& v0 = vertices[it[0]];
         const Vec3& v1 = vertices[it[1]];
         const Vec3& v2 = vertices[it[2]];
-        if (hitsTri(ray, v0, v1, v2)) return surfColor;
+        const double t = calcTriHit(ray, v0, v1, v2); // TODO: inline me
+        if (t < 0.0) continue;
+        closestHit.updateIfCloser(t, surfColor);
     }
-    return Rgb();
 }
 
 void SmfModel::load() {
@@ -33,18 +34,13 @@ void SmfModel::loadGeometry() {
             case '#':
                 continue;
             case 'v':
-                vertices.emplace_back(trans * Vec3(
-                    reader.readFloat(),
-                    reader.readFloat(),
-                    reader.readFloat()
-                ));
+                vertices.emplace_back(trans * reader.readVec3());
                 break;
             case 'f':
-                indices.emplace_back(
-                    reader.readInt() - 1,
-                    reader.readInt() - 1,
-                    reader.readInt() - 1
-                );
+                int i1 = reader.readInt() - 1;
+                int i2 = reader.readInt() - 1;
+                int i3 = reader.readInt() - 1;
+                indices.emplace_back(i1, i2, i3);
         }
     }
 }
@@ -61,7 +57,7 @@ void SmfModel::computeNormals() {
     }
 }
 
-bool SmfModel::hitsTri(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c) const {
+double SmfModel::calcTriHit(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c) const {
     const double detA = det33(
         a[0] - b[0], a[0] - c[0], ray.dir[0],
         a[1] - b[1], a[1] - c[1], ray.dir[1],
@@ -72,19 +68,18 @@ bool SmfModel::hitsTri(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3&
         a[1] - ray.origin[1], a[1] - c[1], ray.dir[1],
         a[2] - ray.origin[2], a[2] - c[2], ray.dir[2]
     ) / detA;
-    if (beta < 0.0) return false;
+    if (beta < 0.0) return Hit::noHit;
     const double gamma = det33(
         a[0] - b[0], a[0] - ray.origin[0], ray.dir[0],
         a[1] - b[1], a[1] - ray.origin[1], ray.dir[1],
         a[2] - b[2], a[2] - ray.origin[2], ray.dir[2]
     ) / detA;
-    if (gamma < 0.0 || beta + gamma > 1.0) return false;
-    const double t = det33(
+    if (gamma < 0.0 || beta + gamma > 1.0) return Hit::noHit;
+    return det33(
         a[0] - b[0], a[0] - c[0], a[0] - ray.origin[0],
         a[1] - b[1], a[1] - c[1], a[1] - ray.origin[1],
         a[2] - b[2], a[2] - c[2], a[2] - ray.origin[2]
     ) / detA;
-    return t >= 0.0;
 }
 
 double SmfModel::det33(double a, double b, double c, double d, double e, double f, double g, double h, double i) const {

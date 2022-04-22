@@ -1,6 +1,7 @@
 #ifndef COURSE_PROJECT_SCENEOBJECT_HPP
 #define COURSE_PROJECT_SCENEOBJECT_HPP
 
+#include "hit.hpp"
 #include "math.hpp"
 #include "ray.hpp"
 #include "rgb.hpp"
@@ -11,7 +12,7 @@ class SceneObj {
 public:
     SceneObj() { trans.setIdentity(); invTrans.setIdentity(); }
 
-    virtual Rgb hit(const Ray& ray, const std::vector<PointLight>& pointLights) const = 0;
+    virtual void hit(const Ray& ray, const std::vector<PointLight>& pointLights, Hit& closestHit) const = 0;
     virtual void load() = 0;
     
     void translate(const Vec3& t) { trans = trans.translate(invTrans * t); updateInvTrans(); }

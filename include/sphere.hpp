@@ -12,7 +12,7 @@ class Sphere : public SceneObj {
 public:
     Sphere();
 
-	Rgb hit(const Ray& ray, const std::vector<PointLight>& pointLights) const override;
+	void hit(const Ray& ray, const std::vector<PointLight>& pointLights, Hit& closestHit) const override;
     void load() override;
 };
 

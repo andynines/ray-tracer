@@ -1,28 +1,40 @@
 #include "fileTokenReader.hpp"
-#include "sceneBuilder.hpp"
+#include "sceneDescrParser.hpp"
 #include "smfModel.hpp"
 #include "sphere.hpp"
 
+#include <fstream>
 #include <functional>
-#include <iostream> // TODO: remove me
+#include <sstream>
 #include <string>
 #include <unordered_map>
 
-SceneBuilder::SceneBuilder(const fs::path& descr) : reader(descr), currentObj(nullptr) {
+SceneDescrParser::SceneDescrParser(const fs::path& descr) : descr(descr), reader(descr), currentObj(nullptr) {
     defineCommands();
 }
 
-Scene SceneBuilder::build() {
+Scene SceneDescrParser::parse() {
     while (reader.hasNext()) {
         std::string command(reader.readString());
-        lowercase(command);
-        commands[command]();
+        if (command == commentDelimiter) {
+            consumeComment();
+        } else {
+            lowercase(command);
+            commands[command]();
+        }
     }
     loadCurrentObj();
     return scene;
 }
 
-void SceneBuilder::defineCommands() {
+std::string SceneDescrParser::getRawDescription() const {
+    std::ifstream ifs(descr);
+    std::stringstream ss;
+    ss << ifs.rdbuf();
+    return ss.str();
+}
+
+void SceneDescrParser::defineCommands() {
     commands["camera"] = [&] {
         Vec3 camPos = reader.readVec3();
         Vec3 camDir = reader.readVec3();
@@ -66,14 +78,18 @@ void SceneBuilder::defineCommands() {
     };
 }
 
-void SceneBuilder::loadCurrentObj() {
+void SceneDescrParser::consumeComment() {
+    while (reader.readString() != commentDelimiter)
+        ;
+}
+
+void SceneDescrParser::loadCurrentObj() {
     if (currentObj != nullptr) {
         currentObj->load();
         scene.addObj(currentObj);
     }
 }
 
-void SceneBuilder::lowercase(std::string& s) const {
-    std::string result(s);
+void SceneDescrParser::lowercase(std::string& s) const {
     std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) { return std::tolower(c); });
 }
