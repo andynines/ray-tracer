@@ -9,7 +9,6 @@ SmfModel::SmfModel(fs::path smf) : SceneObj(), smf(std::move(smf)) {}
 void SmfModel::hit(const Ray& ray, Hit& closestHit) const {
     for (size_t i = 0; i < indices.size(); i++) {
         const Vec3& n = normals[i];
-        if (ray.dir.dot(n) >= 0.0) continue;
         const IndexTriple it = indices[i];
         const Vec3& v0 = vertices[it[0]];
         const Vec3& v1 = vertices[it[1]];
