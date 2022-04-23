@@ -17,11 +17,9 @@ public:
 
 private:
     fs::path smf;
-	std::vector<Vec3> vertices;
+	std::vector<Vec3> vertices, vNormals;
 	std::vector<IndexTriple> indices;
-    std::vector<Vec3> normals;
 
-	static inline double calcTriHit(const Ray& ray, const Vec3& a, const Vec3& b, const Vec3& c);
 	static inline double det33(double a, double b, double c, double d, double e, double f, double g, double h, double i);
 
     void loadGeometry();

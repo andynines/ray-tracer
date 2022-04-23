@@ -18,7 +18,7 @@ struct Material {
 	Material() : ka(0), ks(0), kd(0), shiny(0) {}
 };
 
-using IndexTriple = Eigen::Vector3i;
+using IndexTriple = Eigen::Vector3<size_t>;
 
 using AngleAxis = Eigen::AngleAxis<double>;
 

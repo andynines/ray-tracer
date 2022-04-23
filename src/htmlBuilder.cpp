@@ -16,7 +16,7 @@ void HtmlBuilder::addPre(const std::string& s) {
 }
 
 void HtmlBuilder::addImg(const fs::path& img) {
-    ss << "<img src='" << img.string() << "' alt='scene' width='" << Img::res << "' height='" << Img::res << "'>" << std::endl;
+    ss << "<img src='" << img.string() << "' alt='scene' width='" << Img::targetRes << "' height='" << Img::targetRes << "'>" << std::endl;
 }
 
 void HtmlBuilder::addP(const std::string& s) {

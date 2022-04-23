@@ -8,14 +8,17 @@
 
 class Img {
 public:
-	static constexpr int res = 512;
-    static constexpr int halfRes = res / 2;
+	static constexpr int calcRes = 1024;
+    static constexpr int targetRes = calcRes / 2;
+
+	Img();
+	~Img();
 
 	void setColorAt(int x, int y, const Rgb& c);
 	void writePng(const fs::path& png);
 
 private:
-    std::array<std::array<Rgb, Img::res>, Img::res> px;
+    Rgb** px;
 };
 
 #endif //COURSE_PROJECT_IMG_HPP
