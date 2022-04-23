@@ -1,6 +1,8 @@
 #include "math.hpp"
 #include "scene.hpp"
 
+#include <thread>
+
 Scene::Scene() : pxLength(2 * std::tan(fov * 0.5) / Img::res) {}
 
 void Scene::setCam(const Vec3& camPos, const Vec3& camDir) {
@@ -19,19 +21,34 @@ void Scene::addPointLight(const PointLight& pl) {
 }
 
 void Scene::renderTo(Img& img) const {
-    for (int i = 0; i < Img::res; i++) {
-        for (int j = 0; j < Img::res; j++) {
-            const Vec3 projPlaneHit = projPlaneCenter + 
-                ((j - Img::halfRes + 0.5) * pxLength * right) + 
-                ((Img::halfRes - i - 0.5) * pxLength * up);
-            const Ray pxRay(camPos, projPlaneHit - camPos);
-            Hit closestHit;
-            for (const std::shared_ptr<SceneObj>& obj : objs)
+	const unsigned int numThreads = std::thread::hardware_concurrency();
+	if (numThreads == 0) {
+		becomeWorkerThread(0, 1, img);
+		return;
+	}
+
+	std::vector<std::thread> threads;
+	threads.reserve(numThreads);
+	for (unsigned int i = 0; i < numThreads; i++)
+		threads.emplace_back(&Scene::becomeWorkerThread, this, i, numThreads, std::ref(img));
+	for (std::thread& t : threads)
+		t.join();
+}
+
+void Scene::becomeWorkerThread(int threadIndex, int stride, Img& img) const {
+	for (int i = threadIndex; i < Img::res; i += stride) {
+		for (int j = 0; j < Img::res; j++) {
+			const Vec3 projPlaneHit = projPlaneCenter +
+									  ((j - Img::halfRes + 0.5) * pxLength * right) +
+									  ((Img::halfRes - i - 0.5) * pxLength * up);
+			const Ray pxRay(camPos, projPlaneHit - camPos);
+			Hit closestHit;
+			for (const std::shared_ptr<SceneObj>& obj : objs)
 				obj->hit(pxRay, closestHit);
 			Rgb pxColor = zero;
 			for (const PointLight& light : pointLights)
 				pxColor += light.shade(closestHit, camPos, pxRay.origin + closestHit.t * pxRay.dir);
-            img.setColorAt(j, i, pxColor);
-        }
-    }
+			img.setColorAt(j, i, pxColor);
+		}
+	}
 }

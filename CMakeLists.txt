@@ -22,4 +22,4 @@ add_executable(ray-tracer
 		)
 target_compile_definitions(ray-tracer PUBLIC -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_HDRI_ENABLE=0)
 target_include_directories(ray-tracer PUBLIC ${INCLUDE_DIR} /usr/include/ImageMagick-6 /usr/include/x86_64-linux-gnu/ImageMagick-6)
-target_link_libraries(ray-tracer stdc++fs /usr/lib/x86_64-linux-gnu/libMagick++-6.Q16.so /usr/lib/x86_64-linux-gnu/libMagickCore-6.Q16.so /usr/lib/x86_64-linux-gnu/libMagickWand-6.Q16.so)
+target_link_libraries(ray-tracer stdc++fs pthread /usr/lib/x86_64-linux-gnu/libMagick++-6.Q16.so /usr/lib/x86_64-linux-gnu/libMagickCore-6.Q16.so /usr/lib/x86_64-linux-gnu/libMagickWand-6.Q16.so)

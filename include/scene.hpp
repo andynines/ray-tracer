@@ -20,6 +20,8 @@ public:
 private:
     static constexpr double fov = toRad(56);
 
+	void becomeWorkerThread(int threadIndex, int stride, Img& img) const;
+
     Vec3 camPos, camDir, projPlaneCenter, right;
     double pxLength;
     std::vector<std::shared_ptr<SceneObj>> objs;
