@@ -24,11 +24,17 @@ using AngleAxis = Eigen::AngleAxis<double>;
 
 using Eigen::Scaling;
 
+static constexpr double epsilon = 1e-6;
+
 static inline const Vec3 zero(0, 0, 0);
 static inline const Vec3 up(0, 1, 0);
 
 constexpr inline double toRad(double deg) {
     return deg * M_PI / 180;
+}
+
+constexpr bool isZero(double d) {
+	return std::fabs(d) < epsilon;
 }
 
 #endif //COURSE_PROJECT_MATH_HPP

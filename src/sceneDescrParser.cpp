@@ -1,4 +1,5 @@
 #include "fileTokenReader.hpp"
+#include "plane.hpp"
 #include "sceneDescrParser.hpp"
 #include "smfModel.hpp"
 #include "sphere.hpp"
@@ -42,6 +43,10 @@ void SceneDescrParser::defineCommands() {
         loadCurrentObj();
         currentObj = std::make_shared<Sphere>();
     };
+	commands["plane"] = [&] {
+		loadCurrentObj();
+		currentObj = std::make_shared<Plane>();
+	};
     commands["smf"] = [&] {
         loadCurrentObj();
         currentObj = std::make_shared<SmfModel>(reader.readString());

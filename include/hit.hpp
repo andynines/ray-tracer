@@ -1,6 +1,8 @@
 #ifndef COURSE_PROJECT_HIT_HPP
 #define COURSE_PROJECT_HIT_HPP
 
+#include "math.hpp"
+
 #include <utility>
 
 struct Hit {

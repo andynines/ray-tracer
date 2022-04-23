@@ -7,7 +7,7 @@ color 0.5 0 1
 material 0.2 1 0.7
 shiny 32
 
-smf smf/bunny200.smf
+smf smf/bunny1000.smf
 rotate -90 0 1 0
 translate 4 0 0
 color 0 1 0.5

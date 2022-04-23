@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(cs636-course-project)
+project(course-project)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -15,6 +15,8 @@ add_executable(ray-tracer
 		${SRC_DIR}/htmlBuilder.cpp
 		${SRC_DIR}/image.cpp
 		${SRC_DIR}/math.cpp
+		${SRC_DIR}/plane.cpp
+		${SRC_DIR}/pointLight.cpp
 		${SRC_DIR}/scene.cpp
 		${SRC_DIR}/sceneDescrParser.cpp
 		${SRC_DIR}/smfModel.cpp
