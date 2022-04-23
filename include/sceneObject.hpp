@@ -16,7 +16,7 @@ public:
     virtual void load() = 0;
     
     void translate(const Vec3& t) { trans = trans.translate(trans.inverse() * t); }
-    void rotate(double ang, const Vec3& ax) { trans = trans.rotate(AngleAxis(toRad(ang), ax)); }
+    void rotate(double ang, const Vec3& ax) { trans = trans.rotate(AngleAxis(toRad(ang), trans.linear().inverse() * ax)); }
     void scale(double c) { trans *= Scaling(c); }
     void color(const Rgb& c) { mat.color = c; }
     void setMaterial(double ka, double ks, double kd) {

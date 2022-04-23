@@ -9,6 +9,7 @@
 class Img {
 public:
 	static constexpr int calcRes = 1024;
+	static constexpr int halfCalcRes = calcRes / 2;
     static constexpr int targetRes = calcRes / 2;
 
 	Img();

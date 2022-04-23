@@ -5,7 +5,6 @@
 #include "sphere.hpp"
 
 #include <functional>
-#include <iostream>
 #include <string>
 
 SceneDescrParser::SceneDescrParser(const fs::path& descr) : descr(descr), reader(descr), currentObj(nullptr) {
@@ -36,7 +35,7 @@ std::string SceneDescrParser::getRawDescription() const {
 void SceneDescrParser::defineCommands() {
     commands["camera"] = [&] {
         Vec3 camPos = reader.readVec3();
-        Vec3 camDir = reader.readVec3();
+        Vec3 camDir = reader.readVec3().normalized();
         scene.setCam(camPos, camDir);
     };
     commands["sphere"] = [&] {

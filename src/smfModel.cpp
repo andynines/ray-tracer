@@ -81,6 +81,7 @@ void SmfModel::computeNormals() {
         fNormals.emplace_back(n);
     }
 	vNormals.clear();
+	vNormals.reserve(vertices.size());
 	for (size_t vi = 0; vi < vertices.size(); vi++) {
 		Vec3 vNormal = zero;
 		for (size_t fi = 0; fi < indices.size(); fi++) {
