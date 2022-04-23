@@ -1,7 +1,7 @@
 #ifndef COURSE_PROJECT_IMG_HPP
 #define COURSE_PROJECT_IMG_HPP
 
-#include "rgb.hpp"
+#include "math.hpp"
 #include "stdFilesystem.hpp"
 
 #include <array>

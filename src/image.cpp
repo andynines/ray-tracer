@@ -1,5 +1,4 @@
 #include "image.hpp"
-#include "rgb.hpp"
 
 #include <ImageMagick-6/Magick++.h>
 
@@ -13,7 +12,7 @@ void Img::writePng(const fs::path& png) {
     for (int x = 0; x < Img::res; x++) {
         for (int y = 0; y < Img::res; y++) {
             const Rgb& c = px[x][y];
-            img.pixelColor(x, y, Magick::ColorRGB(c.r, c.g, c.b));
+            img.pixelColor(x, y, Magick::ColorRGB(c[0], c[1], c[2]));
         }
     }
 	img.write(png);

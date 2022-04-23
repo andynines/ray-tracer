@@ -12,7 +12,6 @@ set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
 add_executable(ray-tracer
 		${CMAKE_SOURCE_DIR}/main.cpp
-		${SRC_DIR}/fileTokenReader.cpp
 		${SRC_DIR}/htmlBuilder.cpp
 		${SRC_DIR}/image.cpp
 		${SRC_DIR}/math.cpp

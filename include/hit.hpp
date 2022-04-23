@@ -1,21 +1,22 @@
 #ifndef COURSE_PROJECT_HIT_HPP
 #define COURSE_PROJECT_HIT_HPP
 
-#include "rgb.hpp"
+#include <utility>
 
 struct Hit {
     static constexpr double noHit = -1.0;
     
     double t;
-    Rgb color;
+	Material mat;
+    Vec3 normal;
     
-    Hit() : t(noHit), color(Rgb()) {}
-    Hit(double t, Rgb color) : t(t), color(color) {}
+    Hit() : t(noHit) {}
     
-    void updateIfCloser(double t, Rgb color) {
+    void updateIfCloser(double t, Material mat, Vec3 normal) {
         if (this->t < 0.0 || this->t > t) {
             this->t = t;
-            this->color = color;
+            this->mat = std::move(mat);
+            this->normal = std::move(normal);
         }
     }
 };

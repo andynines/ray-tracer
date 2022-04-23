@@ -26,7 +26,7 @@ void HtmlBuilder::addP(const std::string& s) {
 void HtmlBuilder::write(const std::string& title, const fs::path& path) {
     std::ofstream ofs(path);
     ofs << "<!doctype html>" << std::endl;
-    ofs << "<html>" << std::endl;
+    ofs << "<html lang='en'>" << std::endl;
     ofs << "<head><title>" << title << "</title></head>" << std::endl;
     ofs << "<body>" << std::endl;
     ofs << ss.rdbuf();

@@ -3,11 +3,9 @@
 #include "smfModel.hpp"
 #include "sphere.hpp"
 
-#include <fstream>
 #include <functional>
-#include <sstream>
+#include <iostream>
 #include <string>
-#include <unordered_map>
 
 SceneDescrParser::SceneDescrParser(const fs::path& descr) : descr(descr), reader(descr), currentObj(nullptr) {
     defineCommands();
@@ -18,10 +16,10 @@ Scene SceneDescrParser::parse() {
         std::string command(reader.readString());
         if (command == commentDelimiter) {
             consumeComment();
-        } else {
-            lowercase(command);
-            commands[command]();
+			continue;
         }
+		lowercase(command);
+		commands[command]();
     }
     loadCurrentObj();
     return scene;
@@ -60,7 +58,7 @@ void SceneDescrParser::defineCommands() {
         currentObj->scale(reader.readFloat());
     };
     commands["color"] = [&] {
-        currentObj->color(reader.readRgb());
+        currentObj->color(reader.readVec3());
     };
     commands["material"] = [&] {
         double ka = reader.readFloat();
@@ -73,7 +71,7 @@ void SceneDescrParser::defineCommands() {
     };
     commands["pointlight"] = [&] {
         Vec3 pos = reader.readVec3();
-        Rgb color = reader.readRgb();
+        Rgb color = reader.readVec3();
         scene.addPointLight(PointLight(pos, color));
     };
 }
@@ -90,6 +88,6 @@ void SceneDescrParser::loadCurrentObj() {
     }
 }
 
-void SceneDescrParser::lowercase(std::string& s) const {
+void SceneDescrParser::lowercase(std::string& s) {
     std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) { return std::tolower(c); });
 }

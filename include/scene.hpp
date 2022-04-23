@@ -13,7 +13,7 @@ public:
     Scene();
 
     void setCam(const Vec3& camPos, const Vec3& camDir);
-    void addObj(std::shared_ptr<SceneObj> obj);
+    void addObj(const std::shared_ptr<SceneObj>& obj);
     void addPointLight(const PointLight& pl);
     void renderTo(Img& img) const;
     

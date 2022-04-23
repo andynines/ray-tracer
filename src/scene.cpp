@@ -10,7 +10,7 @@ void Scene::setCam(const Vec3& camPos, const Vec3& camDir) {
     right = camDir.cross(up).normalized();
 }
 
-void Scene::addObj(std::shared_ptr<SceneObj> obj) {
+void Scene::addObj(const std::shared_ptr<SceneObj>& obj) {
     objs.emplace_back(obj);
 }
 
@@ -27,8 +27,11 @@ void Scene::renderTo(Img& img) const {
             const Ray pxRay(camPos, projPlaneHit - camPos);
             Hit closestHit;
             for (const std::shared_ptr<SceneObj>& obj : objs)
-                obj->hit(pxRay, pointLights, closestHit);
-            img.setColorAt(j, i, closestHit.color);
+				obj->hit(pxRay, closestHit);
+			Rgb pxColor = zero;
+			for (const PointLight& light : pointLights)
+				pxColor += light.shade(closestHit, camPos, pxRay.origin + closestHit.t * pxRay.dir);
+            img.setColorAt(j, i, pxColor);
         }
     }
 }

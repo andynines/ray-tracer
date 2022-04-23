@@ -6,7 +6,7 @@
 
 SmfModel::SmfModel(fs::path smf) : SceneObj(), smf(std::move(smf)) {}
 
-void SmfModel::hit(const Ray& ray, const std::vector<PointLight>& pointLights, Hit& closestHit) const {
+void SmfModel::hit(const Ray& ray, Hit& closestHit) const {
     for (size_t i = 0; i < indices.size(); i++) {
         const Vec3& n = normals[i];
         if (ray.dir.dot(n) >= 0.0) continue;
@@ -16,7 +16,7 @@ void SmfModel::hit(const Ray& ray, const std::vector<PointLight>& pointLights, H
         const Vec3& v2 = vertices[it[2]];
         const double t = calcTriHit(ray, v0, v1, v2); // TODO: inline me
         if (t < 0.0) continue;
-        closestHit.updateIfCloser(t, surfColor);
+        closestHit.updateIfCloser(t, mat, n);
     }
 }
 
@@ -84,14 +84,4 @@ double SmfModel::calcTriHit(const Ray& ray, const Vec3& a, const Vec3& b, const 
 
 double SmfModel::det33(double a, double b, double c, double d, double e, double f, double g, double h, double i) {
     return a*(e*i - f*h) - b*(d*i - f*g) + c*(d*h - e*g);
-}
-
-std::vector<std::string> SmfModel::tokenize(const std::string& line) {
-	std::vector<std::string> tokens;
-	std::stringstream ss(line);
-	std::string tok;
-	while (std::getline(ss, tok, ' ')) {
-		tokens.push_back(tok);
-	}
-	return tokens;
 }

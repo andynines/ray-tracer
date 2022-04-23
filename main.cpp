@@ -2,8 +2,6 @@
 #include "htmlBuilder.hpp"
 #include "scene.hpp"
 #include "sceneDescrParser.hpp"
-#include "smfModel.hpp"
-#include "sphere.hpp"
 #include "stdFilesystem.hpp"
 #include "timing.hpp"
 

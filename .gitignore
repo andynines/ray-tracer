@@ -1,2 +1,5 @@
-.vscode/*
-ray-tracer
+cmake-build-debug/*
+cmake-build-release/*
+*.png
+*.html
+.idea/*

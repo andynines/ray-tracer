@@ -24,11 +24,12 @@ private:
     FileTokenReader reader;
     std::unordered_map<std::string, std::function<void()>> commands;
     std::shared_ptr<SceneObj> currentObj;
-    
+
+    static inline void lowercase(std::string& s);
+
     void defineCommands();
     void consumeComment();
     void loadCurrentObj();
-    inline void lowercase(std::string& s) const;
 };
 
 #endif //COURSE_PROJECT_SCENEDESCRPARSER_HPP
