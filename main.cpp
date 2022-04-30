@@ -9,7 +9,7 @@
 
 inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
     HtmlBuilder htmlBuilder;
-    htmlBuilder.addHeader("Assignment 2");
+    htmlBuilder.addHeader("Assignment 3");
     
     for (const fs::path& descr : sceneDescrs) {
         SceneDescrParser sceneDescrParser(descr);
