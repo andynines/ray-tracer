@@ -37,4 +37,7 @@ constexpr bool isZero(double d) {
 	return std::fabs(d) < epsilon;
 }
 
+constexpr double minDouble = std::numeric_limits<double>::min();
+constexpr double maxDouble = std::numeric_limits<double>::max();
+
 #endif //COURSE_PROJECT_MATH_HPP

@@ -10,7 +10,7 @@ double timeExecutionOf(std::function<void()>&& callback) {
 	const auto start = chrono::high_resolution_clock::now();
 	callback();
 	const auto end = chrono::high_resolution_clock::now();
-	return chrono::duration_cast<chrono::microseconds>(end - start).count() / 1e6;
+	return static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count()) / 1.0e6;
 }
 
 #endif //COURSE_PROJECT_TIMING_HPP

@@ -53,21 +53,32 @@ void SmfModel::load() {
 void SmfModel::loadGeometry() {
     vertices.clear();
     indices.clear();
+	double xmin = minDouble, ymin = minDouble, zmin = minDouble;
+	double xmax = maxDouble, ymax = maxDouble, zmax = maxDouble;
     FileTokenReader reader(smf);
     while (reader.hasNext()) {
         switch (reader.readString()[0]) {
-            case '#':
-                continue;
-            case 'v':
-                vertices.emplace_back(trans * reader.readVec3());
-                break;
-            case 'f':
+			case '#':
+				continue;
+			case 'v': {
+				Vec3 v = trans * reader.readVec3();
+				xmin = std::min(v[0], xmin);
+				ymin = std::min(v[1], ymin);
+				zmin = std::min(v[2], zmin);
+				xmax = std::max(v[0], xmax);
+				ymax = std::max(v[1], ymax);
+				zmax = std::max(v[2], zmax);
+				vertices.emplace_back(v);
+				break;
+			} case 'f':
                 int i1 = reader.readInt() - 1;
                 int i2 = reader.readInt() - 1;
                 int i3 = reader.readInt() - 1;
                 indices.emplace_back(i1, i2, i3);
         }
     }
+	aabbMin = Vec3(xmin, ymin, zmin);
+	aabbMax = Vec3(xmax, ymax, zmax);
 }
 
 void SmfModel::computeNormals() {
