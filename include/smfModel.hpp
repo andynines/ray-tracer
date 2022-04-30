@@ -13,6 +13,7 @@ public:
 	explicit SmfModel(fs::path smf);
     
     void hit(const Ray& ray, Hit& closestHit) const override;
+	[[nodiscard]] bool hitsAabb(const Ray& ray) const override;
     void load() override;
 
 private:

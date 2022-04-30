@@ -45,6 +45,10 @@ void SmfModel::hit(const Ray& ray, Hit& closestHit) const {
     }
 }
 
+bool SmfModel::hitsAabb(const Ray &ray) const {
+	return ray.hitsAabb(aabbMin, aabbMax);
+}
+
 void SmfModel::load() {
     loadGeometry();
     computeNormals();
@@ -53,8 +57,8 @@ void SmfModel::load() {
 void SmfModel::loadGeometry() {
     vertices.clear();
     indices.clear();
-	double xmin = minDouble, ymin = minDouble, zmin = minDouble;
-	double xmax = maxDouble, ymax = maxDouble, zmax = maxDouble;
+	double xmin = maxDouble, ymin = maxDouble, zmin = maxDouble;
+	double xmax = minDouble, ymax = minDouble, zmax = minDouble;
     FileTokenReader reader(smf);
     while (reader.hasNext()) {
         switch (reader.readString()[0]) {

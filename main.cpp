@@ -7,9 +7,11 @@
 
 #include <iostream>
 
+#define PAGE_TITLE ("Assignment 3")
+
 inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
     HtmlBuilder htmlBuilder;
-    htmlBuilder.addHeader("Assignment 3");
+    htmlBuilder.addHeader(PAGE_TITLE);
     
     for (const fs::path& descr : sceneDescrs) {
         SceneDescrParser sceneDescrParser(descr);
@@ -26,7 +28,7 @@ inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
         htmlBuilder.addImg(png);
         htmlBuilder.addP("Render time: " + std::to_string(renderTime) + " sec");
     }
-    htmlBuilder.write("Assignment 2", "index.html");
+    htmlBuilder.write(PAGE_TITLE, "index.html");
 }
 
 int main(int argc, char* argv[]) {

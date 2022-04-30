@@ -22,6 +22,7 @@ Scene SceneDescrParser::parse() {
 		commands[command]();
     }
     loadCurrentObj();
+	scene.constructBvh();
     return scene;
 }
 

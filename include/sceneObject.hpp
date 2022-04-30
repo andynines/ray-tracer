@@ -13,6 +13,7 @@ public:
     virtual ~SceneObj() = default;
 
     virtual void hit(const Ray& ray, Hit& closestHit) const = 0;
+	virtual bool hitsAabb(const Ray& ray) const = 0;
     virtual void load() = 0;
     
     void translate(const Vec3& t) { trans = trans.translate(trans.inverse() * t); }

@@ -20,6 +20,10 @@ void Scene::addPointLight(const PointLight& pl) {
     pointLights.emplace_back(pl);
 }
 
+void Scene::constructBvh() {
+
+}
+
 void Scene::renderTo(Img& img) const {
 	const unsigned int numThreads = std::thread::hardware_concurrency();
 	if (numThreads == 0) {
@@ -44,7 +48,8 @@ void Scene::becomeWorkerThread(int threadIndex, int stride, Img& img) const {
 			const Ray pxRay(camPos, projPlaneHit - camPos);
 			Hit closestHit;
 			for (const std::shared_ptr<SceneObj>& obj : objs)
-				obj->hit(pxRay, closestHit);
+				if (obj->hitsAabb(pxRay))
+					obj->hit(pxRay, closestHit);
 			Rgb pxColor = zero;
 			for (const PointLight& light : pointLights)
 				pxColor += light.shade(closestHit, camPos, pxRay.origin + closestHit.t * pxRay.dir);

@@ -15,6 +15,7 @@ public:
     void setCam(const Vec3& camPos, const Vec3& camDir);
     void addObj(const std::shared_ptr<SceneObj>& obj);
     void addPointLight(const PointLight& pl);
+	void constructBvh();
     void renderTo(Img& img) const;
     
 private:
