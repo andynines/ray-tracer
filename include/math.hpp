@@ -11,13 +11,6 @@ using Transform = Eigen::Transform<double, 3, Eigen::TransformTraits::Affine>;
 using Vec3 = Eigen::Vector3d;
 using Rgb = Vec3;
 
-struct Material {
-	Rgb color;
-	double ka, ks, kd, shiny;
-
-	Material() : ka(0), ks(0), kd(0), shiny(0) {}
-};
-
 using IndexTriple = Eigen::Vector3<size_t>;
 
 using AngleAxis = Eigen::AngleAxis<double>;

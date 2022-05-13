@@ -1,6 +1,7 @@
 #ifndef COURSE_PROJECT_HIT_HPP
 #define COURSE_PROJECT_HIT_HPP
 
+#include "material.hpp"
 #include "math.hpp"
 
 #include <utility>

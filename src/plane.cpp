@@ -8,10 +8,6 @@ void Plane::hit(const Ray& ray, Hit& closestHit) const {
 	closestHit.updateIfCloser(t, mat, normal);
 }
 
-bool Plane::hitsAabb(const Ray &ray) const {
-	return !isZero(normal.dot(ray.dir));
-}
-
 void Plane::load() {
 	point = trans * zero;
 	normal = trans.linear() * up;

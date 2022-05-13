@@ -12,11 +12,10 @@ public:
     Sphere();
 
 	void hit(const Ray& ray, Hit& closestHit) const override;
-	bool hitsAabb(const Ray& ray) const override;
     void load() override;
 
 private:
-    Vec3 center, aabbMin, aabbMax;
+    Vec3 center;
     double radius;
 };
 

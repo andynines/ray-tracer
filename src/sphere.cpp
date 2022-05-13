@@ -23,14 +23,7 @@ void Sphere::hit(const Ray& ray, Hit& closestHit) const {
     closestHit.updateIfCloser(tclose, mat, normal);
 }
 
-bool Sphere::hitsAabb(const Ray &ray) const {
-	return ray.hitsAabb(aabbMin, aabbMax);
-}
-
 void Sphere::load() {
     center = trans * zero;
-	Vec3 aabbDiag = trans.linear() * Vec3(1, 1, 1);
-	aabbMin = center - aabbDiag;
-	aabbMax = center + aabbDiag;
     radius = (trans.linear() * up).norm();
 }

@@ -22,7 +22,7 @@ Scene SceneDescrParser::parse() {
 		commands[command]();
     }
     loadCurrentObj();
-	scene.constructBvh();
+	SmfModel::constructBvh();
     return scene;
 }
 

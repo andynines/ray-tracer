@@ -1,9 +1,9 @@
 camera 0 0 0 1 0 0
-sphere
-translate 3 0 0
-scale 0.4
+
+smf smf/tri.smf
+translate 2 0 0
 color 0.1 0.1 0.9
 material 0.3 1 0.8
 shiny 32
 
-pointlight 2 3 1 1 1 1
+pointlight 0.5 1 0 1 1 1

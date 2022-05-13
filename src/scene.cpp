@@ -1,5 +1,6 @@
 #include "math.hpp"
 #include "scene.hpp"
+#include "smfModel.hpp"
 
 #include <thread>
 
@@ -18,10 +19,6 @@ void Scene::addObj(const std::shared_ptr<SceneObj>& obj) {
 
 void Scene::addPointLight(const PointLight& pl) {
     pointLights.emplace_back(pl);
-}
-
-void Scene::constructBvh() {
-
 }
 
 void Scene::renderTo(Img& img) const {
@@ -47,9 +44,9 @@ void Scene::becomeWorkerThread(int threadIndex, int stride, Img& img) const {
 									  ((Img::halfCalcRes - i - 0.5) * pxLength * up);
 			const Ray pxRay(camPos, projPlaneHit - camPos);
 			Hit closestHit;
+			SmfModel::hitAll(pxRay, closestHit);
 			for (const std::shared_ptr<SceneObj>& obj : objs)
-				if (obj->hitsAabb(pxRay))
-					obj->hit(pxRay, closestHit);
+				obj->hit(pxRay, closestHit);
 			Rgb pxColor = zero;
 			for (const PointLight& light : pointLights)
 				pxColor += light.shade(closestHit, camPos, pxRay.origin + closestHit.t * pxRay.dir);
