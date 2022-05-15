@@ -1,11 +1,12 @@
 camera 0 0.2 0 1 0 0
 
 pointlight -1 0 0 1 1 1
+pointlight 0 0 -2 0.5 0.2 0.2
 
 smf smf/cow.smf
 translate 0.9 0 0
 rotate 180 0 1 0
-color 0 1 1 # 0.8 0.2 0.2 #
+color 0.05 1 1
 material 0.2 1 0.6
 shiny 32
 
@@ -26,13 +27,6 @@ material 0.3 0.7 0.4
 shiny 5
 
 sphere
-translate 2 1 -0.8
-scale 0.4
-color 0.2 0.6 0.2
-material 0.2 0.8 0.5
-shiny 50
-
-sphere
 translate 3 0.5 -1
 scale 0.4
 color 0.7 0.7 0.1
@@ -45,10 +39,3 @@ scale 10
 color 0.2 0.2 0.8
 material 0.4 0.2 0.6
 shiny 32
-
-sphere
-translate 7 2 -0.3
-scale 0.5
-color 0.7 0.4 0.2
-material 0.2 0.9 0.1
-shiny 64
