@@ -17,7 +17,7 @@ public:
     std::string getRawDescription() const;
     
 private:
-    inline static const std::string commentDelimiter = "#";
+    static inline const std::string commentDelimiter = "#";
 
     fs::path descr;
     Scene scene;

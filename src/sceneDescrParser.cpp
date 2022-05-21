@@ -6,6 +6,7 @@
 
 #include <functional>
 #include <string>
+#include <utility>
 
 SceneDescrParser::SceneDescrParser(const fs::path& descr) : descr(descr), reader(descr), currentObj(nullptr) {
     defineCommands();

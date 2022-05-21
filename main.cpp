@@ -17,8 +17,8 @@ inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
         SceneDescrParser sceneDescrParser(descr);
         Scene scene = sceneDescrParser.parse();
         Img img;
-        const double renderTime = timeExecutionOf([&] { scene.renderTo(img); });
-        
+        double renderTime = timeExecutionOf([&] { scene.renderTo(img); });
+
         fs::path png = descr.stem();
         png.replace_extension("png");
         img.writePng(png);
@@ -26,7 +26,8 @@ inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
         htmlBuilder.addHr();
         htmlBuilder.addPre(sceneDescrParser.getRawDescription());
         htmlBuilder.addImg(png);
-        htmlBuilder.addP("Render time: " + std::to_string(renderTime) + " sec");
+        htmlBuilder.addP("Render time: " + std::to_string(renderTime) + " sec (no multithreading)");
+		htmlBuilder.addP("# rays cast: " + std::to_string(scene.getNumRaysCast()));
     }
     htmlBuilder.write(PAGE_TITLE, "index.html");
 }

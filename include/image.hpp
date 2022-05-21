@@ -1,6 +1,7 @@
 #ifndef COURSE_PROJECT_IMG_HPP
 #define COURSE_PROJECT_IMG_HPP
 
+#include "imageBuffer.hpp"
 #include "math.hpp"
 #include "stdFilesystem.hpp"
 
@@ -8,18 +9,16 @@
 
 class Img {
 public:
-	static constexpr int calcRes = 1024;
-	static constexpr int halfCalcRes = calcRes / 2;
-    static constexpr int targetRes = calcRes / 2;
+	static constexpr int res = 512;
+	static constexpr int halfRes = res / 2;
 
 	Img();
-	~Img();
 
-	void setColorAt(int x, int y, const Rgb& c);
+	void setColorAt(int r, int c, const Rgb& rgb);
 	void writePng(const fs::path& png);
 
 private:
-    Rgb** px;
+    ImgBuf px;
 };
 
 #endif //COURSE_PROJECT_IMG_HPP

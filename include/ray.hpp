@@ -17,7 +17,7 @@ struct Ray {
 		Vec3 t2{std::max(tmin[0], tmax[0]), std::max(tmin[1], tmax[1]), std::max(tmin[2], tmax[2])};
 		double tnear = std::max(std::max(t1[0], t1[1]), t1[2]);
 		double tfar = std::min(std::min(t2[0], t2[1]), t2[2]);
-		return tnear < tfar;
+		return tnear <= tfar;
 	}
 };
 
