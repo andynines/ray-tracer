@@ -19,7 +19,7 @@ add_executable(ray-tracer
 		${SRC_DIR}/pointLight.cpp
 		${SRC_DIR}/renderer.cpp
 		${SRC_DIR}/scene.cpp
-		${SRC_DIR}/sceneDescrParser.cpp
+		${SRC_DIR}/sceneDescriptionParser.cpp
 		${SRC_DIR}/smfModel.cpp
 		${SRC_DIR}/sphere.cpp
 		)

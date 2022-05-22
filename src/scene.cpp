@@ -30,8 +30,12 @@ Rgb Scene::cast(const Ray& ray) const {
 	SmfModel::hitAll(ray, closestHit);
 	for (const std::shared_ptr<SceneObj>& obj : objs)
 		obj->hit(ray, closestHit);
+	if (closestHit.t == Hit::noHit) return zero;
+
 	Rgb color = zero;
-	for (const PointLight& light : pointLights)
-		color += light.shade(closestHit, camPos, ray.origin + closestHit.t * ray.dir);
+	for (const PointLight& light : pointLights) {
+		Vec3 hitPos = ray.origin + closestHit.t * ray.dir;
+		color += light.shade(closestHit, camPos, hitPos);
+	}
 	return color;
 }

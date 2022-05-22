@@ -1,6 +1,6 @@
 #include "fileTokenReader.hpp"
 #include "plane.hpp"
-#include "sceneDescrParser.hpp"
+#include "sceneDescriptionParser.hpp"
 #include "smfModel.hpp"
 #include "sphere.hpp"
 

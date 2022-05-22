@@ -2,13 +2,13 @@
 #include "htmlBuilder.hpp"
 #include "renderer.hpp"
 #include "scene.hpp"
-#include "sceneDescrParser.hpp"
+#include "sceneDescriptionParser.hpp"
 #include "stdFilesystem.hpp"
 #include "timing.hpp"
 
 #include <iostream>
 
-#define PAGE_TITLE ("Assignment 4")
+#define PAGE_TITLE ("Assignment 5")
 
 inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
     HtmlBuilder htmlBuilder;
