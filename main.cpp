@@ -1,5 +1,6 @@
 #include "fileTokenReader.hpp"
 #include "htmlBuilder.hpp"
+#include "renderer.hpp"
 #include "scene.hpp"
 #include "sceneDescrParser.hpp"
 #include "stdFilesystem.hpp"
@@ -12,12 +13,13 @@
 inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
     HtmlBuilder htmlBuilder;
     htmlBuilder.addHeader(PAGE_TITLE);
-    
+
     for (const fs::path& descr : sceneDescrs) {
         SceneDescrParser sceneDescrParser(descr);
         Scene scene = sceneDescrParser.parse();
+		Renderer renderer(scene);
         Img img;
-        double renderTime = timeExecutionOf([&] { scene.renderTo(img); });
+        double renderTime = timeExecutionOf([&] { renderer.render(img); });
 
         fs::path png = descr.stem();
         png.replace_extension("png");
@@ -26,8 +28,8 @@ inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
         htmlBuilder.addHr();
         htmlBuilder.addPre(sceneDescrParser.getRawDescription());
         htmlBuilder.addImg(png);
-        htmlBuilder.addP("Render time: " + std::to_string(renderTime) + " sec (no multithreading)");
-		htmlBuilder.addP("# rays cast: " + std::to_string(scene.getNumRaysCast()));
+        htmlBuilder.addP("Rendered in " + std::to_string(renderTime) + " sec using " +
+			std::to_string(renderer.getNumRaysCast()) + " rays");
     }
     htmlBuilder.write(PAGE_TITLE, "index.html");
 }

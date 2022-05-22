@@ -5,20 +5,22 @@
 #include "math.hpp"
 #include "stdFilesystem.hpp"
 
-#include <array>
+#include <ImageMagick-6/Magick++.h>
+
+#include <mutex>
 
 class Img {
 public:
 	static constexpr int res = 512;
-	static constexpr int halfRes = res / 2;
 
 	Img();
 
-	void setColorAt(int r, int c, const Rgb& rgb);
+	void setColorAt(int x, int y, const Rgb& c);
 	void writePng(const fs::path& png);
 
 private:
-    ImgBuf px;
+	Magick::Image img;
+	std::mutex imgLk;
 };
 
 #endif //COURSE_PROJECT_IMG_HPP

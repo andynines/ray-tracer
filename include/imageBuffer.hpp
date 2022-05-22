@@ -7,14 +7,14 @@
 
 class ImgBuf {
 public:
-	explicit ImgBuf(int res) : buf(res, std::vector<Rgb>(res, zero)) {}
+	explicit ImgBuf(int res) : buf(res, std::vector<Rgb>(res, nullRgb)) {}
 
-	Rgb& at(int r, int c) {
-		return buf[r][c];
+	Rgb& at(int x, int y) {
+		return buf[x][y];
 	}
 
-	[[nodiscard]] const Rgb& at(int r, int c) const {
-		return buf[r][c];
+	[[nodiscard]] const Rgb& at(int x, int y) const {
+		return buf[x][y];
 	}
 
 private:
