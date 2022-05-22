@@ -2,8 +2,9 @@
 
 PointLight::PointLight(Vec3 pos, Rgb color) : pos(std::move(pos)), color(std::move(color)) {}
 
-Rgb PointLight::shade(Hit& hit, const Vec3& camPos, const Vec3& hitPos) const {
+Rgb PointLight::shade(Hit& hit, const Vec3& camPos, const Vec3& hitPos, bool occluded) const {
 	Rgb ambient = hit.mat.ka * color;
+	if (occluded) return ambient.cwiseProduct(hit.mat.color);
 
 	Vec3 towardsLight = (pos - hitPos).normalized();
 	double attenuation = std::min(1 / lightStrength / towardsLight.norm(), 1.0);

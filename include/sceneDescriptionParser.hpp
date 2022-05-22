@@ -1,6 +1,7 @@
 #ifndef COURSE_PROJECT_SCENEDESCRIPTIONPARSER_HPP
 #define COURSE_PROJECT_SCENEDESCRIPTIONPARSER_HPP
 
+#include "fileTokenReader.hpp"
 #include "scene.hpp"
 #include "sceneObject.hpp"
 #include "stdFilesystem.hpp"

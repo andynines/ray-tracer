@@ -1,4 +1,3 @@
-#include "fileTokenReader.hpp"
 #include "htmlBuilder.hpp"
 #include "renderer.hpp"
 #include "scene.hpp"
@@ -28,8 +27,7 @@ inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
         htmlBuilder.addHr();
         htmlBuilder.addPre(sceneDescrParser.getRawDescription());
         htmlBuilder.addImg(png);
-        htmlBuilder.addP("Rendered in " + std::to_string(renderTime) + " sec using " +
-			std::to_string(renderer.getNumRaysCast()) + " rays");
+        htmlBuilder.addP("Rendered in " + std::to_string(renderTime) + " sec");
     }
     htmlBuilder.write(PAGE_TITLE, "index.html");
 }

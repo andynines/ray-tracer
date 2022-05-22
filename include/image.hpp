@@ -11,7 +11,7 @@
 
 class Img {
 public:
-	static constexpr int res = 512;
+	static constexpr int res = 1024;
 
 	Img();
 
@@ -20,7 +20,6 @@ public:
 
 private:
 	Magick::Image img;
-	std::mutex imgLk;
 };
 
 #endif //COURSE_PROJECT_IMG_HPP

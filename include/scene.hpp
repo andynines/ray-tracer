@@ -15,9 +15,9 @@ public:
 	[[nodiscard]] Rgb calcPxColor(double x, double y) const;
 
 private:
-	[[nodiscard]] Rgb cast(const Ray& ray) const;
+	void hit(const Ray& ray, Hit& hit) const;
 
-	Vec3 camPos, projPlaneCenter, right;
+	Vec3 camPos, projPlaneCenter, right, camUp;
     std::vector<std::shared_ptr<SceneObj>> objs;
     std::vector<PointLight> pointLights;
 };

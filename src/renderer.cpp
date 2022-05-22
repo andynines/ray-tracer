@@ -5,8 +5,7 @@
 Renderer::Renderer(const Scene& scene) :
 	scene(scene),
 	pxLength(2 * std::tan(fov * 0.5) / sampleBufRes),
-	samples(sampleBufRes),
-	numRaysCast(0) {}
+	samples(sampleBufRes) {}
 
 void Renderer::render(Img& img) {
 	int numThreads = 0; //static_cast<int>(std::thread::hardware_concurrency());
@@ -56,7 +55,6 @@ Rgb Renderer::fetchOrComputeSample(int x, int y) {
 	Rgb& sample = samples.at(x, y);
 	if (sample != nullRgb) return sample;
 	sample = scene.calcPxColor((x - halfSampleBufRes) * pxLength, (halfSampleBufRes - y) * pxLength);
-	numRaysCast++;
 	return sample;
 }
 

@@ -4,14 +4,11 @@
 #include "image.hpp"
 #include "scene.hpp"
 
-#include <atomic>
-
 class Renderer {
 public:
 	explicit Renderer(const Scene& scene);
 
 	void render(Img& img);
-	[[nodiscard]] int getNumRaysCast() const { return numRaysCast; }
 
 private:
 	static inline bool isWithinTolerance(const Rgb& a, const Rgb& b, const Rgb& c, const Rgb& d);
@@ -28,7 +25,6 @@ private:
 	const Scene& scene;
 	double pxLength;
 	ImgBuf samples;
-	std::atomic_int numRaysCast;
 };
 
 #endif //COURSE_PROJECT_RENDERER_HPP

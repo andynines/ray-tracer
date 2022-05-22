@@ -36,7 +36,7 @@ void SmfModel::hitAll(const Ray &ray, Hit &closestHit) {
 
 void SmfModel::hitBv(const Ray& ray, Hit& closestHit, const NodePtr& bv) {
 	if (!ray.hitsAabb(bv->aabbMin, bv->aabbMax)) return;
-	if (!bv->faceIndices.empty()) {
+	if (bv->low == nullptr) {
 		hitBvFaces(ray, closestHit, bv);
 		return;
 	}
