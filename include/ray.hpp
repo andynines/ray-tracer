@@ -8,7 +8,7 @@ struct Ray {
 	Vec3 dir;
 	Vec3 invDir;
 
-	Ray(const Vec3& origin, const Vec3& dir) : origin(origin), dir(dir.normalized()), invDir(dir.cwiseInverse()) {}
+	Ray(const Vec3& origin, const Vec3& dir) : origin(origin), dir(dir), invDir(dir.cwiseInverse()) {}
 
 	[[nodiscard]] inline bool hitsAabb(const Vec3& min, const Vec3& max) const {
 		Vec3 tmin = (min - origin).cwiseProduct(invDir);

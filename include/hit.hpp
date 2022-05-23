@@ -16,7 +16,7 @@ struct Hit {
     Hit() : t(noHit) {}
     
     void updateIfCloser(double t, Material mat, Vec3 normal) {
-        if (t > 0.0 && (this->t < 0.0 || this->t > t)) {
+        if (this->t < 0.0 || this->t > t) {
             this->t = t;
             this->mat = std::move(mat);
             this->normal = std::move(normal);

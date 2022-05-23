@@ -1,6 +1,5 @@
 #include "math.hpp"
 #include "scene.hpp"
-#include "smfModel.hpp"
 
 void Scene::setCam(const Vec3& camPos, const Vec3& camDir) {
     this->camPos = camPos;
@@ -19,7 +18,7 @@ void Scene::addPointLight(const PointLight& pl) {
 
 Rgb Scene::calcPxColor(double x, double y) const {
 	Vec3 projPlaneHit = projPlaneCenter + (x * right) + (y * camUp);
-	Ray pxRay(camPos, projPlaneHit - camPos);
+	Ray pxRay(camPos, (projPlaneHit - camPos).normalized());
 	Hit closestHit;
 	hit(pxRay, closestHit);
 	if (closestHit.t == Hit::noHit) return zero;
@@ -30,7 +29,7 @@ Rgb Scene::calcPxColor(double x, double y) const {
 		Vec3 hitPos = pxRay.origin + closestHit.t * pxRay.dir;
 		Vec3 shadowHitPos = hitPos + shadowBias * closestHit.normal;
 		Vec3 hitToLight = light.pos - shadowHitPos;
-		Ray shadowRay(shadowHitPos, hitToLight);
+		Ray shadowRay(shadowHitPos, hitToLight.normalized());
 		Hit occlusionHit;
 		hit(shadowRay, occlusionHit);
 		bool occluded = occlusionHit.t != Hit::noHit && occlusionHit.t <= hitToLight.norm();
@@ -40,7 +39,6 @@ Rgb Scene::calcPxColor(double x, double y) const {
 }
 
 void Scene::hit(const Ray &ray, Hit& hit) const {
-	SmfModel::hitAll(ray, hit);
 	for (const std::shared_ptr<SceneObj>& obj : objs)
 		obj->hit(ray, hit);
 }

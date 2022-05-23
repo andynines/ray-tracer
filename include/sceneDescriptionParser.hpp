@@ -1,6 +1,7 @@
 #ifndef COURSE_PROJECT_SCENEDESCRIPTIONPARSER_HPP
 #define COURSE_PROJECT_SCENEDESCRIPTIONPARSER_HPP
 
+#include "bvh.hpp"
 #include "fileTokenReader.hpp"
 #include "scene.hpp"
 #include "sceneObject.hpp"
@@ -24,6 +25,7 @@ private:
     Scene scene;
     FileTokenReader reader;
     std::unordered_map<std::string, std::function<void()>> commands;
+	std::shared_ptr<Bvh> bvh;
     std::shared_ptr<SceneObj> currentObj;
 
     static inline void lowercase(std::string& s);

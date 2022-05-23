@@ -1,15 +1,13 @@
+#include "bvh.hpp"
 #include "fileTokenReader.hpp"
-#include "smfModel.hpp"
 
 #include <numeric>
-#include <utility>
 
-SmfModel::SmfModel(fs::path smf) : SceneObj(), smf(std::move(smf)) {}
-
-void SmfModel::hit(const Ray& ray, Hit& closestHit) const {
+void Bvh::hit(const Ray& ray, Hit& closestHit) const {
+	hitBv(ray, closestHit, root);
 }
 
-void SmfModel::load() {
+void Bvh::load() {
 	FileTokenReader reader(smf);
 	int indexOffset = static_cast<int>(vertices.size());
 	size_t origNumFaces = faces.size();
@@ -27,14 +25,30 @@ void SmfModel::load() {
 				faces.emplace_back(i1, i2, i3);
 		}
 	}
-	mats.insert(mats.end(), faces.size() - origNumFaces, &mat);
+	mats.insert(mats.end(), faces.size() - origNumFaces, std::make_shared<Material>(mat));
+	trans.setIdentity();
+	mat = Material();
 }
 
-void SmfModel::hitAll(const Ray &ray, Hit &closestHit) {
-	hitBv(ray, closestHit, bvh);
+void Bvh::setNextSmf(const fs::path& smf) {
+	this->smf = smf;
 }
 
-void SmfModel::hitBv(const Ray& ray, Hit& closestHit, const NodePtr& bv) {
+void Bvh::loadFinal() {
+	computeNormals();
+
+	centroids.reserve(faces.size());
+	std::transform(faces.begin(), faces.end(), std::back_inserter(centroids), [&](const IndexTriple& it) {
+		return (vertices[it[0]] + vertices[it[1]] + vertices[it[2]]) / 3;
+	});
+
+	std::vector<int> faceIndices(faces.size());
+	std::iota(faceIndices.begin(), faceIndices.end(), 0);
+
+	fillBv(root, faceIndices.begin(), faceIndices.end(), 0);
+}
+
+void Bvh::hitBv(const Ray& ray, Hit& closestHit, const NodePtr& bv) const {
 	if (!ray.hitsAabb(bv->aabbMin, bv->aabbMax)) return;
 	if (bv->low == nullptr) {
 		hitBvFaces(ray, closestHit, bv);
@@ -44,7 +58,7 @@ void SmfModel::hitBv(const Ray& ray, Hit& closestHit, const NodePtr& bv) {
 	hitBv(ray, closestHit, bv->high);
 }
 
-void SmfModel::hitBvFaces(const Ray& ray, Hit& closestHit, const NodePtr& bv) {
+void Bvh::hitBvFaces(const Ray& ray, Hit& closestHit, const NodePtr& bv) const {
 	for (int fi : bv->faceIndices) {
 		const IndexTriple& it = faces[fi];
 		const Vec3& v0 = vertices[it[0]];
@@ -85,21 +99,7 @@ void SmfModel::hitBvFaces(const Ray& ray, Hit& closestHit, const NodePtr& bv) {
 	}
 }
 
-void SmfModel::constructBvh() {
-	computeNormals();
-
-	centroids.reserve(faces.size());
-	std::transform(faces.begin(), faces.end(), std::back_inserter(centroids), [](const IndexTriple& it) {
-		return (vertices[it[0]] + vertices[it[1]] + vertices[it[2]]) / 3;
-	});
-
-	std::vector<int> faceIndices(faces.size());
-	std::iota(faceIndices.begin(), faceIndices.end(), 0);
-
-	fillBv(bvh, faceIndices.begin(), faceIndices.end(), 0);
-}
-
-void SmfModel::fillBv(NodePtr& bv, IndexIterator begin, IndexIterator end, int ax) {
+void Bvh::fillBv(NodePtr& bv, IndexIterator begin, IndexIterator end, int ax) {
 	bv = std::make_shared<BvhNode>();
 	setAabb(bv, begin, end);
 	size_t rangeWidth = std::distance(begin, end);
@@ -114,7 +114,7 @@ void SmfModel::fillBv(NodePtr& bv, IndexIterator begin, IndexIterator end, int a
 	fillBv(bv->high, mid, end, newAx);
 }
 
-void SmfModel::setAabb(const NodePtr &bv, IndexIterator begin, IndexIterator end) {
+void Bvh::setAabb(const NodePtr& bv, IndexIterator begin, IndexIterator end) {
 	double xmin = maxDouble, ymin = maxDouble, zmin = maxDouble;
 	double xmax = minDouble, ymax = minDouble, zmax = minDouble;
 	for (auto it = begin; it != end; it++) {
@@ -132,16 +132,16 @@ void SmfModel::setAabb(const NodePtr &bv, IndexIterator begin, IndexIterator end
 	bv->aabbMax = Vec3(xmax, ymax, zmax);
 }
 
-void SmfModel::computeNormals() {
-    std::vector<Vec3> fNormals;
-    fNormals.reserve(faces.size());
-    for (const IndexTriple& it : faces) {
-        Vec3 v0 = vertices[it[0]];
-        Vec3 v1 = vertices[it[1]];
-        Vec3 v2 = vertices[it[2]];
-        Vec3 n = ((v1 - v0).cross(v2 - v0)).normalized();
-        fNormals.emplace_back(n);
-    }
+void Bvh::computeNormals() {
+	std::vector<Vec3> fNormals;
+	fNormals.reserve(faces.size());
+	for (const IndexTriple& it : faces) {
+		Vec3 v0 = vertices[it[0]];
+		Vec3 v1 = vertices[it[1]];
+		Vec3 v2 = vertices[it[2]];
+		Vec3 n = ((v1 - v0).cross(v2 - v0)).normalized();
+		fNormals.emplace_back(n);
+	}
 	for (size_t vi = 0; vi < vertices.size(); vi++) {
 		Vec3 vNormal = zero;
 		for (size_t fi = 0; fi < faces.size(); fi++) {
@@ -154,6 +154,6 @@ void SmfModel::computeNormals() {
 	}
 }
 
-double SmfModel::det33(double a, double b, double c, double d, double e, double f, double g, double h, double i) {
-    return a*(e*i - f*h) - b*(d*i - f*g) + c*(d*h - e*g);
+double Bvh::det33(double a, double b, double c, double d, double e, double f, double g, double h, double i) {
+	return a*(e*i - f*h) - b*(d*i - f*g) + c*(d*h - e*g);
 }

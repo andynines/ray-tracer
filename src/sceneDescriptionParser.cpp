@@ -1,7 +1,6 @@
 #include "fileTokenReader.hpp"
 #include "plane.hpp"
 #include "sceneDescriptionParser.hpp"
-#include "smfModel.hpp"
 #include "sphere.hpp"
 
 #include <functional>
@@ -12,6 +11,7 @@ SceneDescrParser::SceneDescrParser(const fs::path& descr) : descr(descr), reader
 }
 
 Scene SceneDescrParser::parse() {
+	bvh = std::make_shared<Bvh>();
     while (reader.hasNext()) {
         std::string command(reader.readString());
         if (command == commentDelimiter) {
@@ -22,7 +22,8 @@ Scene SceneDescrParser::parse() {
 		commands[command]();
     }
     loadCurrentObj();
-	SmfModel::constructBvh();
+	bvh->loadFinal();
+	scene.addObj(bvh);
     return scene;
 }
 
@@ -49,7 +50,8 @@ void SceneDescrParser::defineCommands() {
 	};
     commands["smf"] = [&] {
         loadCurrentObj();
-        currentObj = std::make_shared<SmfModel>(reader.readString());
+        currentObj = bvh;
+		bvh->setNextSmf(reader.readString());
     };
     commands["translate"] = [&] {
         currentObj->translate(reader.readVec3());

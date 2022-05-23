@@ -12,6 +12,7 @@ set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
 add_executable(ray-tracer
 		${CMAKE_SOURCE_DIR}/main.cpp
+		${SRC_DIR}/bvh.cpp
 		${SRC_DIR}/htmlBuilder.cpp
 		${SRC_DIR}/image.cpp
 		${SRC_DIR}/math.cpp
@@ -20,7 +21,6 @@ add_executable(ray-tracer
 		${SRC_DIR}/renderer.cpp
 		${SRC_DIR}/scene.cpp
 		${SRC_DIR}/sceneDescriptionParser.cpp
-		${SRC_DIR}/smfModel.cpp
 		${SRC_DIR}/sphere.cpp
 		)
 target_compile_definitions(ray-tracer PUBLIC -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_HDRI_ENABLE=0)

@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#define PAGE_TITLE ("Assignment 5")
+#define PAGE_TITLE ("Assignment 6")
 
 inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
     HtmlBuilder htmlBuilder;
