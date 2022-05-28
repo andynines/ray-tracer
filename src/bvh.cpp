@@ -100,7 +100,7 @@ void Bvh::hitBvFaces(const Ray& ray, Hit& closestHit, const NodePtr& bv) const {
 				(1.0 - beta - gamma) * vNormals[it[0]] +
 				beta * vNormals[it[1]] +
 				gamma * vNormals[it[2]]).normalized();
-		closestHit.updateIfCloser(t, mats[matIndices[fi]], pxNormal);
+		closestHit.updateIfCloser(t, mats[matIndices[fi]], pxNormal, ray);
 	}
 }
 

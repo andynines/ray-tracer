@@ -32,8 +32,8 @@ Rgb Scene::calcPxColor(double x, double y) const {
 		Ray shadowRay(shadowHitPos, hitToLight.normalized());
 		Hit occlusionHit;
 		hit(shadowRay, occlusionHit);
-		bool occluded = occlusionHit.t != Hit::noHit && occlusionHit.t <= hitToLight.norm();
-		color += light.shade(closestHit, camPos, hitPos, occluded);
+		closestHit.occluded = occlusionHit.t != Hit::noHit && occlusionHit.t <= hitToLight.norm();
+		color += light.shade(closestHit, camPos);
 	}
 	return color;
 }

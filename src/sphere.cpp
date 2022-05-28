@@ -15,7 +15,7 @@ void Sphere::hit(const Ray& ray, Hit& closestHit) const {
 	if (tclose < 0.0) return;
 
 	Vec3 normal = ((ray.origin + tclose * ray.dir) - center).normalized();
-    closestHit.updateIfCloser(tclose, mat, normal);
+    closestHit.updateIfCloser(tclose, mat, normal, ray);
 }
 
 void Sphere::load() {

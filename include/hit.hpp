@@ -3,6 +3,7 @@
 
 #include "material.hpp"
 #include "math.hpp"
+#include "ray.hpp"
 
 #include <utility>
 
@@ -11,18 +12,22 @@ struct Hit {
     
     double t;
 	Material mat;
-    Vec3 normal;
+    Vec3 pos, normal;
+	bool occluded;
     
-    Hit() : t(noHit) {}
+    Hit() : t(noHit), occluded(true) {}
     
-    void updateIfCloser(double t, Material mat, Vec3 normal) {
+    void updateIfCloser(double newT, Material newMat, Vec3 newNormal, const Ray& ray) {
 		// Invariant warning: we assume t is not negative
-        if (this->t < 0.0 || this->t > t) {
-            this->t = t;
-            this->mat = std::move(mat);
-            this->normal = std::move(normal);
+        if (t < 0.0 || t > newT) {
+            t = newT;
+            mat = std::move(newMat);
+            normal = std::move(newNormal);
+			pos = ray.origin + newT * ray.dir;
         }
     }
+
+
 };
 
 #endif //COURSE_PROJECT_HIT_HPP

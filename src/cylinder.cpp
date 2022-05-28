@@ -33,7 +33,7 @@ void Cylinder::hitSide(const Ray &ray, const Ray& localRay, Hit &closestHit) con
 	if (std::fabs(localHitPos[1]) > halfHeight) return;
 
 	Vec3 normal = trans.linear() * Vec3(localHitPos[0], 0, localHitPos[2]).normalized();
-	closestHit.updateIfCloser(tclose, mat, normal);
+	closestHit.updateIfCloser(tclose, mat, normal, ray);
 }
 
 void Cylinder::hitCap(const Ray &ray, const Ray& localRay, Hit &closestHit) const {
@@ -49,5 +49,5 @@ void Cylinder::hitCap(const Ray &ray, const Ray& localRay, Hit &closestHit) cons
 	if (Vec3(localHitPos[0], 0, localHitPos[2]).norm() > radius) return;
 
 	Vec3 normal = (localRay.dir.dot(up) < 0.0) ? topNormal : bottomNormal;
-	closestHit.updateIfCloser(tclose, mat, normal);
+	closestHit.updateIfCloser(tclose, mat, normal, ray);
 }
