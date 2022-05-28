@@ -16,9 +16,9 @@ public:
     virtual void hit(const Ray& ray, Hit& closestHit) const = 0;
     virtual void load() = 0;
     
-    void translate(const Vec3& t) { trans = trans.translate(trans.inverse() * t); }
+    void translate(const Vec3& t) { trans = trans.translate(t); }
 
-    void rotate(double ang, const Vec3& ax) { trans = trans.rotate(AngleAxis(toRad(ang), trans.linear().inverse() * ax)); }
+    void rotate(double ang, const Vec3& ax) { trans = trans.rotate(AngleAxis(toRad(ang), ax)); }
 
 	void scale(double c) { trans *= Scaling(c); }
 
@@ -31,6 +31,8 @@ public:
     }
 
     void setShiny(double s) { mat.shiny = s; }
+
+	void applyTrans(const Transform& t) { trans = t * trans; }
     
 protected:
     Transform trans;

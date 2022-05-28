@@ -16,6 +16,7 @@ struct Hit {
     Hit() : t(noHit) {}
     
     void updateIfCloser(double t, Material mat, Vec3 normal) {
+		// Invariant warning: we assume t is not negative
         if (this->t < 0.0 || this->t > t) {
             this->t = t;
             this->mat = std::move(mat);

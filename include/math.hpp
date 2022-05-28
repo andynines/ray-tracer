@@ -35,4 +35,13 @@ constexpr bool isZero(double d) {
 	return std::fabs(d) < epsilon;
 }
 
+constexpr double calcPositiveMin(double x, double y) {
+	bool xNegative = x < 0.0;
+	bool yNegative = y < 0.0;
+	if (xNegative && yNegative) return -1;
+	if (xNegative) return y;
+	if (yNegative) return x;
+	return std::min(x, y);
+}
+
 #endif //COURSE_PROJECT_MATH_HPP

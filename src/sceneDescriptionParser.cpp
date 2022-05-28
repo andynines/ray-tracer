@@ -1,3 +1,4 @@
+#include "cylinder.hpp"
 #include "fileTokenReader.hpp"
 #include "plane.hpp"
 #include "sceneDescriptionParser.hpp"
@@ -15,15 +16,15 @@ Scene SceneDescrParser::parse() {
     while (reader.hasNext()) {
         std::string command(reader.readString());
         if (command == commentDelimiter) {
-            consumeComment();
-			continue;
-        }
-		lowercase(command);
-		commands[command]();
+			skipComment();
+        } else {
+			lowercase(command);
+			commands[command]();
+		}
     }
     loadCurrentObj();
 	bvh->loadFinal();
-	scene.addObj(bvh);
+	if (!bvh->isEmpty()) scene.addObj(bvh);
     return scene;
 }
 
@@ -47,6 +48,10 @@ void SceneDescrParser::defineCommands() {
 	commands["plane"] = [&] {
 		loadCurrentObj();
 		currentObj = std::make_shared<Plane>();
+	};
+	commands["cylinder"] = [&] {
+		loadCurrentObj();
+		currentObj = std::make_shared<Cylinder>();
 	};
     commands["smf"] = [&] {
         loadCurrentObj();
@@ -83,7 +88,7 @@ void SceneDescrParser::defineCommands() {
     };
 }
 
-void SceneDescrParser::consumeComment() {
+void SceneDescrParser::skipComment() {
     while (reader.readString() != commentDelimiter)
         ;
 }

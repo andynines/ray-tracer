@@ -14,6 +14,7 @@ public:
 	void load() override;
 
 	void setNextSmf(const fs::path& smf);
+	bool isEmpty() const;
 	void loadFinal();
 
 private:
@@ -32,7 +33,8 @@ private:
 	fs::path smf;
 	std::vector<Vec3> vertices, vNormals, centroids;
 	std::vector<IndexTriple> faces;
-	std::vector<std::shared_ptr<Material>> mats;
+	std::vector<Material> mats;
+	std::vector<int> matIndices;
 	NodePtr root;
 
 	static inline double det33(double a, double b, double c, double d, double e, double f, double g, double h, double i);

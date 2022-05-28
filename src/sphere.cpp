@@ -11,14 +11,9 @@ void Sphere::hit(const Ray& ray, Hit& closestHit) const {
     
     double t1 = (-b - std::sqrt(det)) / 2;
     double t2 = (-b + std::sqrt(det)) / 2;
-    bool t1OutsideFov = t1 < 0.0;
-    bool t2OutsideFov = t2 < 0.0;
-    if (t1OutsideFov && t2OutsideFov) return;
+    double tclose = calcPositiveMin(t1, t2);
+	if (tclose < 0.0) return;
 
-    double tclose;
-    if (t1OutsideFov) tclose = t2;
-    else if (t2OutsideFov) tclose = t1;
-    else tclose = std::min(t1, t2);
 	Vec3 normal = ((ray.origin + tclose * ray.dir) - center).normalized();
     closestHit.updateIfCloser(tclose, mat, normal);
 }

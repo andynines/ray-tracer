@@ -31,7 +31,7 @@ private:
     static inline void lowercase(std::string& s);
 
     void defineCommands();
-    void consumeComment();
+    void skipComment();
     void loadCurrentObj();
 };
 

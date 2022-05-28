@@ -25,13 +25,18 @@ void Bvh::load() {
 				faces.emplace_back(i1, i2, i3);
 		}
 	}
-	mats.insert(mats.end(), faces.size() - origNumFaces, std::make_shared<Material>(mat));
+	matIndices.insert(matIndices.end(), faces.size() - origNumFaces, static_cast<int>(mats.size()));
+	mats.emplace_back(mat);
 	trans.setIdentity();
 	mat = Material();
 }
 
 void Bvh::setNextSmf(const fs::path& smf) {
 	this->smf = smf;
+}
+
+bool Bvh::isEmpty() const {
+	return (root->low == nullptr) && root->faceIndices.empty();
 }
 
 void Bvh::loadFinal() {
@@ -95,7 +100,7 @@ void Bvh::hitBvFaces(const Ray& ray, Hit& closestHit, const NodePtr& bv) const {
 				(1.0 - beta - gamma) * vNormals[it[0]] +
 				beta * vNormals[it[1]] +
 				gamma * vNormals[it[2]]).normalized();
-		closestHit.updateIfCloser(t, *mats[fi], pxNormal);
+		closestHit.updateIfCloser(t, mats[matIndices[fi]], pxNormal);
 	}
 }
 
