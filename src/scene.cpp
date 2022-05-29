@@ -1,35 +1,47 @@
 #include "math.hpp"
 #include "scene.hpp"
 
-void Scene::setCam(const Vec3& camPos, const Vec3& camDir) {
-    this->camPos = camPos;
-    projPlaneCenter = camPos + camDir;
-    right = camDir.cross(up).normalized();
-	camUp = right.cross(camDir).normalized();
+void Scene::setCam(const Vec3& pos, const Vec3& dir) {
+    camPos = pos;
+    projPlaneCenter = pos + dir;
+    right = dir.cross(up).normalized();
+	camUp = right.cross(dir).normalized();
 }
 
 void Scene::addObj(const std::shared_ptr<SceneObj>& obj) {
     objs.emplace_back(obj);
 }
 
-void Scene::addPointLight(const PointLight& pl) {
-    pointLights.emplace_back(pl);
+void Scene::addPointLight(const Vec3& pos, const Rgb& color) {
+    pointLights.emplace_back(pos, color);
 }
 
 Rgb Scene::calcPxColor(double x, double y) const {
 	Vec3 projPlaneHit = projPlaneCenter + (x * right) + (y * camUp);
 	Ray pxRay(camPos, (projPlaneHit - camPos).normalized());
+	return cast(pxRay);
+}
+
+Rgb Scene::cast(const Ray& ray, int reflectionDepth) const {
 	Hit closestHit;
-	hit(pxRay, closestHit);
+	hit(ray, closestHit);
 	if (closestHit.t == Hit::noHit) return zero;
 
 	Rgb color = zero;
+
+	static constexpr double bias = 1e-3;
+	Vec3 biasedHitPos = closestHit.pos + bias * closestHit.normal;
+
+	static constexpr int maxReflectionDepth = 5;
+	if (closestHit.mat.reflective > 0.0 && reflectionDepth <= maxReflectionDepth) {
+		Vec3 reflDir = reflect(ray.dir, closestHit.normal);
+		Ray reflectionRay(biasedHitPos, reflDir);
+		color += closestHit.mat.reflective * cast(reflectionRay, reflectionDepth + 1).cwiseProduct(closestHit.mat.specularColor);
+	}
+
 	for (const PointLight& light : pointLights) {
-		static constexpr double shadowBias = 1e-3;
-		Vec3 hitPos = pxRay.origin + closestHit.t * pxRay.dir;
-		Vec3 shadowHitPos = hitPos + shadowBias * closestHit.normal;
-		Vec3 hitToLight = light.pos - shadowHitPos;
-		Ray shadowRay(shadowHitPos, hitToLight.normalized());
+		Vec3 hitToLight = light.pos - biasedHitPos;
+		Ray shadowRay(biasedHitPos, hitToLight.normalized());
 		Hit occlusionHit;
 		hit(shadowRay, occlusionHit);
 		closestHit.occluded = occlusionHit.t != Hit::noHit && occlusionHit.t <= hitToLight.norm();

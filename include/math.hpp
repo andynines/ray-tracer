@@ -44,4 +44,8 @@ constexpr double calcPositiveMin(double x, double y) {
 	return std::min(x, y);
 }
 
+inline Vec3 reflect(const Vec3& d, const Vec3& n) {
+	return d - 2 * (d.dot(n)) * n;
+}
+
 #endif //COURSE_PROJECT_MATH_HPP

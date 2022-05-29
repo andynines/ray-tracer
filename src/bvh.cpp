@@ -31,8 +31,8 @@ void Bvh::load() {
 	mat = Material();
 }
 
-void Bvh::setNextSmf(const fs::path& smf) {
-	this->smf = smf;
+void Bvh::setNextSmf(const fs::path& newSmf) {
+	smf = newSmf;
 }
 
 bool Bvh::isEmpty() const {

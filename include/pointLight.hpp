@@ -7,8 +7,6 @@
 #include "math.hpp"
 
 struct PointLight {
-	static constexpr double lightStrength = 0.1;
-
     Vec3 pos;
     Rgb color;
 

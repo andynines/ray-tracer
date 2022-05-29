@@ -6,6 +6,7 @@
 #include "math.hpp"
 #include "ray.hpp"
 
+#include <utility>
 #include <vector>
 
 class SceneObj {
@@ -22,18 +23,22 @@ public:
 
 	void scale(double c) { trans *= Scaling(c); }
 
-    void color(const Rgb& c) { mat.color = c; }
+    void setAmbient(double ka) { mat.ka = ka; }
 
-    void setMaterial(double ka, double ks, double kd) {
-        mat.ka = ka;
-        mat.ks = ks;
-        mat.kd = kd;
-    }
+	void setDiffuse(double kd, Rgb diffuse) {
+		mat.kd = kd;
+		mat.diffuseColor = std::move(diffuse);
+	}
+
+	void setSpecular(double ks, Rgb specular) {
+		mat.ks = ks;
+		mat.specularColor = std::move(specular);
+	}
 
     void setShiny(double s) { mat.shiny = s; }
 
-	void applyTrans(const Transform& t) { trans = t * trans; }
-    
+	void setReflective(double r) { mat.reflective = r; }
+
 protected:
     Transform trans;
     Material mat;

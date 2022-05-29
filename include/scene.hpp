@@ -9,12 +9,13 @@
 
 class Scene {
 public:
-    void setCam(const Vec3& camPos, const Vec3& camDir);
+    void setCam(const Vec3& pos, const Vec3& dir);
     void addObj(const std::shared_ptr<SceneObj>& obj);
-    void addPointLight(const PointLight& pl);
+    void addPointLight(const Vec3& pos, const Rgb& color);
 	[[nodiscard]] Rgb calcPxColor(double x, double y) const;
 
 private:
+	Rgb cast(const Ray& ray, int reflectionDepth = 0) const;
 	void hit(const Ray& ray, Hit& hit) const;
 
 	Vec3 camPos, projPlaneCenter, right, camUp;

@@ -4,10 +4,10 @@
 #include "math.hpp"
 
 struct Material {
-	Rgb color;
-	double ka, ks, kd, shiny;
+	Rgb diffuseColor, specularColor;
+	double ka, ks, kd, shiny, reflective;
 
-	Material() : ka(0), ks(0), kd(0), shiny(0) {}
+	Material() : ka(0), ks(0), kd(0), shiny(0), reflective(0) {}
 };
 
 #endif //COURSE_PROJECT_MATERIAL_HPP

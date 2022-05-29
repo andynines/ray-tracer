@@ -13,7 +13,7 @@ public:
 	void hit(const Ray& ray, Hit& closestHit) const override;
 	void load() override;
 
-	void setNextSmf(const fs::path& smf);
+	void setNextSmf(const fs::path& newSmf);
 	bool isEmpty() const;
 	void loadFinal();
 

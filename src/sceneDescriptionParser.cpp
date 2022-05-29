@@ -63,28 +63,35 @@ void SceneDescrParser::defineCommands() {
     };
     commands["rotate"] = [&] {
         double ang = reader.readFloat();
-        Vec3 axis = reader.readVec3();
-        currentObj->rotate(ang, axis);
+        Vec3 ax = reader.readVec3();
+        currentObj->rotate(ang, ax);
     };
     commands["scale"] = [&] {
         currentObj->scale(reader.readFloat());
     };
-    commands["color"] = [&] {
-        currentObj->color(reader.readVec3());
-    };
-    commands["material"] = [&] {
-        double ka = reader.readFloat();
-        double ks = reader.readFloat();
-        double kd = reader.readFloat();
-        currentObj->setMaterial(ka, ks, kd);
-    };
+    commands["ambient"] = [&] {
+		currentObj->setAmbient(reader.readFloat());
+	};
+	commands["diffuse"] = [&] {
+		double kd = reader.readFloat();
+		Rgb diffuse = reader.readVec3();
+		currentObj->setDiffuse(kd, diffuse);
+	};
+	commands["specular"] = [&] {
+		double ks = reader.readFloat();
+		Rgb specular = reader.readVec3();
+		currentObj->setSpecular(ks, specular);
+	};
     commands["shiny"] = [&] {
         currentObj->setShiny(reader.readFloat());
     };
+	commands["reflective"] = [&] {
+		currentObj->setReflective(reader.readFloat());
+	};
     commands["pointlight"] = [&] {
         Vec3 pos = reader.readVec3();
         Rgb color = reader.readVec3();
-        scene.addPointLight(PointLight(pos, color));
+        scene.addPointLight(pos, color);
     };
 }
 
