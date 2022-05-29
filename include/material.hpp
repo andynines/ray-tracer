@@ -4,7 +4,7 @@
 #include "math.hpp"
 
 struct Material {
-	Rgb diffuseColor, specularColor;
+	Rgb diffuse, specular;
 	double ka, ks, kd, shiny, reflective;
 
 	Material() : ka(0), ks(0), kd(0), shiny(0), reflective(0) {}

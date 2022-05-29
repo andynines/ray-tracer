@@ -11,7 +11,7 @@
 
 class Img {
 public:
-	static constexpr int res = 1024;
+	static constexpr int res = 512;
 
 	Img();
 

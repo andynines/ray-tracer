@@ -36,7 +36,7 @@ Rgb Scene::cast(const Ray& ray, int reflectionDepth) const {
 	if (closestHit.mat.reflective > 0.0 && reflectionDepth <= maxReflectionDepth) {
 		Vec3 reflDir = reflect(ray.dir, closestHit.normal);
 		Ray reflectionRay(biasedHitPos, reflDir);
-		color += closestHit.mat.reflective * cast(reflectionRay, reflectionDepth + 1).cwiseProduct(closestHit.mat.specularColor);
+		color += closestHit.mat.reflective * cast(reflectionRay, reflectionDepth + 1).cwiseProduct(closestHit.mat.specular);
 	}
 
 	for (const PointLight& light : pointLights) {

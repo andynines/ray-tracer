@@ -27,12 +27,12 @@ public:
 
 	void setDiffuse(double kd, Rgb diffuse) {
 		mat.kd = kd;
-		mat.diffuseColor = std::move(diffuse);
+		mat.diffuse = std::move(diffuse);
 	}
 
 	void setSpecular(double ks, Rgb specular) {
 		mat.ks = ks;
-		mat.specularColor = std::move(specular);
+		mat.specular = std::move(specular);
 	}
 
     void setShiny(double s) { mat.shiny = s; }

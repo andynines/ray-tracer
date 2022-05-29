@@ -1,6 +1,6 @@
 #include "sphere.hpp"
 
-Sphere::Sphere() : SceneObj(), radius(0) {}
+Sphere::Sphere() : radius(0) {}
 
 void Sphere::hit(const Ray& ray, Hit& closestHit) const {
     Vec3 towardsOrigin = ray.origin - center;

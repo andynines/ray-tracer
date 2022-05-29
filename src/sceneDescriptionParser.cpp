@@ -14,7 +14,7 @@ SceneDescrParser::SceneDescrParser(const fs::path& descr) : descr(descr), reader
 Scene SceneDescrParser::parse() {
 	bvh = std::make_shared<Bvh>();
     while (reader.hasNext()) {
-        std::string command(reader.readString());
+        std::string command = reader.readString();
         if (command == commentDelimiter) {
 			skipComment();
         } else {
