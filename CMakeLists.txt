@@ -23,6 +23,7 @@ add_executable(ray-tracer
 		${SRC_DIR}/scene.cpp
 		${SRC_DIR}/sceneDescriptionParser.cpp
 		${SRC_DIR}/sphere.cpp
+		${SRC_DIR}/textureSphere.cpp
 		)
 target_compile_definitions(ray-tracer PUBLIC -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_HDRI_ENABLE=0)
 target_include_directories(ray-tracer PUBLIC ${INCLUDE_DIR} /usr/include/ImageMagick-6 /usr/include/x86_64-linux-gnu/ImageMagick-6)

@@ -5,7 +5,7 @@
 Renderer::Renderer(const Scene& scene) :
 	scene(scene),
 	pxLength(2 * std::tan(fov * 0.5) / sampleBufRes),
-	samples(sampleBufRes) {}
+	samples(sampleBufRes, sampleBufRes) {}
 
 void Renderer::render(Img& img) {
 	int numThreads = 0; //static_cast<int>(std::thread::hardware_concurrency());

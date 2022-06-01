@@ -11,6 +11,9 @@ public:
 	void hit(const Ray& ray, Hit& closestHit) const override;
     void load() override;
 
+protected:
+	[[nodiscard]] virtual Material makeMat(const Vec3& normal) const;
+
 private:
     Vec3 center;
     double radius;

@@ -17,6 +17,8 @@ using AngleAxis = Eigen::AngleAxis<double>;
 
 using Eigen::Scaling;
 
+static constexpr double pi = M_PI;
+
 static constexpr double epsilon = 1e-6;
 
 constexpr double minDouble = std::numeric_limits<double>::min();

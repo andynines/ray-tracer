@@ -15,10 +15,12 @@ void Sphere::hit(const Ray& ray, Hit& closestHit) const {
 	if (tclose < 0.0) return;
 
 	Vec3 normal = ((ray.origin + tclose * ray.dir) - center).normalized();
-    closestHit.updateIfCloser(tclose, mat, normal, ray);
+    closestHit.updateIfCloser(tclose, makeMat(normal), normal, ray);
 }
 
 void Sphere::load() {
     center = trans * zero;
     radius = (trans.linear() * up).norm();
 }
+
+Material Sphere::makeMat(const Vec3& normal) const { return mat; }
