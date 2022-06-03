@@ -13,8 +13,6 @@ void Bvh::load() {
 	size_t origNumFaces = faces.size();
 	while (reader.hasNext()) {
 		switch (reader.readString()[0]) {
-			case '#':
-				continue;
 			case 'v':
 				vertices.emplace_back(trans * reader.readVec3());
 				break;
@@ -96,11 +94,11 @@ void Bvh::hitBvFaces(const Ray& ray, Hit& closestHit, const NodePtr& bv) const {
 		) / detA;
 		if (t < 0.0) continue;
 
-		const Vec3 pxNormal = (
+		const Vec3 normal = (
 				(1.0 - beta - gamma) * vNormals[it[0]] +
 				beta * vNormals[it[1]] +
 				gamma * vNormals[it[2]]).normalized();
-		closestHit.updateIfCloser(t, mats[matIndices[fi]], pxNormal, ray);
+		closestHit.updateIfCloser(t, mats[matIndices[fi]], normal, ray);
 	}
 }
 

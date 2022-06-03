@@ -14,7 +14,7 @@ public:
 	void load() override;
 
 	void setNextSmf(const fs::path& newSmf);
-	bool isEmpty() const;
+	[[nodiscard]] bool isEmpty() const;
 	void loadFinal();
 
 private:
