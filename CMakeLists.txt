@@ -24,6 +24,7 @@ add_executable(ray-tracer
 		${SRC_DIR}/scene.cpp
 		${SRC_DIR}/sceneDescriptionParser.cpp
 		${SRC_DIR}/sphere.cpp
+		${SRC_DIR}/spotLight.cpp
 		${SRC_DIR}/textureSphere.cpp
 		)
 target_compile_definitions(ray-tracer PUBLIC -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_HDRI_ENABLE=0)

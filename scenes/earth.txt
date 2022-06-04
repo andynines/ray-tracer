@@ -1,7 +1,7 @@
 camera 0 0 0 1 0 0
 pointlight 0 0 0 1 1 1
 
-texsphere tex/earth.jpg
+texsphere tex/jupiter.png
 translate 2 0 0
 scale 0.5
 ambient 0.3

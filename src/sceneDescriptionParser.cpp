@@ -72,7 +72,7 @@ void SceneDescrParser::defineCommands() {
         currentObj->translate(reader.readVec3());
     };
     commands["rotate"] = [&] {
-        double ang = reader.readFloat();
+        double ang = toRad(reader.readFloat());
         Vec3 ax = reader.readVec3();
         currentObj->rotate(ang, ax);
     };
@@ -103,6 +103,14 @@ void SceneDescrParser::defineCommands() {
         Rgb color = reader.readVec3();
         scene.addPointLight(pos, color);
     };
+	commands["spotlight"] = [&] {
+		Vec3 pos = reader.readVec3();
+		Rgb color = reader.readVec3();
+		Vec3 dir = reader.readVec3().normalized();
+		double cutoff = toRad(reader.readFloat());
+		double sharpness = reader.readFloat();
+		scene.addSpotLight(pos, color, dir, cutoff, sharpness);
+	};
 }
 
 void SceneDescrParser::skipComment() {

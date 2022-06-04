@@ -19,7 +19,7 @@ public:
     
     void translate(const Vec3& t) { trans = trans.translate(t); }
 
-    void rotate(double ang, const Vec3& ax) { trans = trans.rotate(AngleAxis(toRad(ang), ax)); }
+    void rotate(double ang, const Vec3& ax) { trans = trans.rotate(AngleAxis(ang, ax)); }
 
 	void scale(double c) { trans *= Scaling(c); }
 

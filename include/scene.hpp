@@ -12,15 +12,16 @@ public:
     void setCam(const Vec3& pos, const Vec3& dir);
     void addObj(const std::shared_ptr<SceneObj>& obj);
     void addPointLight(const Vec3& pos, const Rgb& color);
+	void addSpotLight(const Vec3& pos, const Rgb& color, const Vec3& dir, double cutoff, double sharpness);
 	[[nodiscard]] Rgb calcPxColor(double x, double y) const;
 
 private:
-	Rgb cast(const Ray& ray, int reflectionDepth = 0) const;
+	[[nodiscard]] Rgb cast(const Ray& ray, int reflectionDepth = 0) const;
 	void hit(const Ray& ray, Hit& hit) const;
 
 	Vec3 camPos, projPlaneCenter, right, camUp;
     std::vector<std::shared_ptr<SceneObj>> objs;
-    std::vector<PointLight> pointLights;
+    std::vector<std::shared_ptr<PointLight>> lights;
 };
 
 #endif //COURSE_PROJECT_SCENE_HPP

@@ -1,5 +1,6 @@
 #include "math.hpp"
 #include "scene.hpp"
+#include "spotLight.hpp"
 
 void Scene::setCam(const Vec3& pos, const Vec3& dir) {
     camPos = pos;
@@ -13,7 +14,11 @@ void Scene::addObj(const std::shared_ptr<SceneObj>& obj) {
 }
 
 void Scene::addPointLight(const Vec3& pos, const Rgb& color) {
-    pointLights.emplace_back(pos, color);
+    lights.emplace_back(std::make_shared<PointLight>(pos, color));
+}
+
+void Scene::addSpotLight(const Vec3& pos, const Rgb& color, const Vec3& dir, double cutoff, double sharpness) {
+	lights.emplace_back(std::make_shared<SpotLight>(pos, color, dir, cutoff, sharpness));
 }
 
 Rgb Scene::calcPxColor(double x, double y) const {
@@ -39,13 +44,13 @@ Rgb Scene::cast(const Ray& ray, int reflectionDepth) const {
 		color += closestHit.mat.reflective * cast(reflectionRay, reflectionDepth + 1).cwiseProduct(closestHit.mat.specular);
 	}
 
-	for (const PointLight& light : pointLights) {
-		Vec3 hitToLight = light.pos - biasedHitPos;
+	for (const std::shared_ptr<PointLight>& light : lights) {
+		Vec3 hitToLight = light->getPos() - biasedHitPos;
 		Ray shadowRay(biasedHitPos, hitToLight.normalized());
 		Hit occlusionHit;
 		hit(shadowRay, occlusionHit);
 		closestHit.occluded = occlusionHit.t != Hit::noHit && occlusionHit.t <= hitToLight.norm();
-		color += light.shade(closestHit, camPos);
+		color += light->shade(closestHit, camPos);
 	}
 	return color;
 }
