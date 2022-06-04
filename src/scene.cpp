@@ -49,7 +49,7 @@ Rgb Scene::cast(const Ray& ray, int reflectionDepth) const {
 		Ray shadowRay(biasedHitPos, hitToLight.normalized());
 		Hit occlusionHit;
 		hit(shadowRay, occlusionHit);
-		closestHit.occluded = occlusionHit.t != Hit::noHit && occlusionHit.t <= hitToLight.norm();
+		closestHit.occluded = (occlusionHit.t != Hit::noHit) && (occlusionHit.t <= hitToLight.norm());
 		color += light->shade(closestHit, camPos);
 	}
 	return color;

@@ -18,7 +18,7 @@ private:
 	static constexpr int sampleBufRes = supersampleScale * Img::res + 1;
 	static constexpr int halfSampleBufRes = sampleBufRes / 2;
 
-	void renderSection(int startX, int numXs, Img& img);
+	void renderSection(int startX, int stride, Img& img);
 	Rgb averageSubdivisionsAt(int x, int y, int d);
 	Rgb fetchOrComputeSample(int x, int y);
 

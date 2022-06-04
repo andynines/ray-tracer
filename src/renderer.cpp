@@ -8,28 +8,22 @@ Renderer::Renderer(const Scene& scene) :
 	samples(sampleBufRes, sampleBufRes) {}
 
 void Renderer::render(Img& img) {
-	int numThreads = 0; //static_cast<int>(std::thread::hardware_concurrency());
+	int numThreads = static_cast<int>(std::thread::hardware_concurrency());
 	if (numThreads == 0) {
 		renderSection(0, Img::res, img);
 		return;
 	}
 
-	// TODO: Implement a more robust work distribution method.
-	// This one relies on each thread completing their first x before their previous neighbor starts its last x
-	int rowsPerThread = Img::res / numThreads;
 	std::vector<std::thread> threads;
 	threads.reserve(numThreads);
-	int i;
-	for (i = 0; i < numThreads - 1; i++)
-		threads.emplace_back(&Renderer::renderSection, this, i * rowsPerThread, rowsPerThread, std::ref(img));
-	threads.emplace_back(&Renderer::renderSection, this, i * rowsPerThread, rowsPerThread + Img::res % numThreads, std::ref(img));
+	for (int i = 0; i < numThreads; i++)
+		threads.emplace_back(&Renderer::renderSection, this, i, numThreads, std::ref(img));
 	for (std::thread& t : threads)
 		t.join();
 }
 
-void Renderer::renderSection(int startX, int numXs, Img& img) {
-	int endIndex = startX + numXs;
-	for (int x = startX; x < endIndex; x++)
+void Renderer::renderSection(int startX, int stride, Img& img) {
+	for (int x = startX; x < Img::res; x += stride)
 		for (int y = 0; y < Img::res; y++)
 			img.setColorAt(x, y, averageSubdivisionsAt(x * supersampleScale, y * supersampleScale, supersampleScale));
 }
