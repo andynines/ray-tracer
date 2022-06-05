@@ -10,7 +10,7 @@ void Scene::setCam(const Vec3& pos, const Vec3& dir) {
 }
 
 void Scene::addObj(const std::shared_ptr<SceneObj>& obj) {
-    objs.emplace_back(obj);
+    objs.emplace(obj);
 }
 
 void Scene::addPointLight(const Vec3& pos, const Rgb& color) {

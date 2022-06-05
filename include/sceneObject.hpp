@@ -39,6 +39,11 @@ public:
 
 	void setReflective(double r) { mat.reflective = r; }
 
+	void setTransmissive(double kt, Rgb transmissive) {
+		mat.kt = kt;
+		mat.transmissive = std::move(transmissive);
+	}
+
 protected:
     Transform trans;
     Material mat;

@@ -5,6 +5,7 @@
 #include "pointLight.hpp"
 #include "sceneObject.hpp"
 
+#include <unordered_set>
 #include <vector>
 
 class Scene {
@@ -20,7 +21,7 @@ private:
 	void hit(const Ray& ray, Hit& hit) const;
 
 	Vec3 camPos, projPlaneCenter, right, camUp;
-    std::vector<std::shared_ptr<SceneObj>> objs;
+    std::unordered_set<std::shared_ptr<SceneObj>> objs;
     std::vector<std::shared_ptr<PointLight>> lights;
 };
 
