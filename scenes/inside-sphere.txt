@@ -1,0 +1,9 @@
+camera 0 0 0 1 0 0
+pointlight 0 0 0 1 1 1
+
+sphere
+scale 5
+ambient 0.3
+diffuse 0.7 0.8 0.1 0.1
+specular 0.3 0.8 0.8 0.8
+shiny 4

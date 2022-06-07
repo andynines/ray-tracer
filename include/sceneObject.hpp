@@ -37,12 +37,14 @@ public:
 
     void setShiny(double s) { mat.shiny = s; }
 
-	void setReflective(double r) { mat.reflective = r; }
+	void setReflective(double r) { mat.kr = r; }
 
 	void setTransmissive(double kt, Rgb transmissive) {
 		mat.kt = kt;
 		mat.transmissive = std::move(transmissive);
 	}
+
+	void setHighlight(double h) { mat.highlight = h; }
 
 protected:
     Transform trans;

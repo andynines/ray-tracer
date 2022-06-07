@@ -12,19 +12,18 @@ struct Hit {
     
     double t;
 	Material mat;
-    Vec3 pos, normal;
+    Vec3 pos, normal, refracDir;
 	bool occluded;
     
-    Hit() : t(noHit), occluded(true) {}
+    Hit() : t(noHit), refracDir(zerov), occluded(true) {}
     
     void updateIfCloser(double newT, Material newMat, Vec3 newNormal, const Ray& ray) {
-		// Invariant warning: we assume t is not negative
-        if (t < 0.0 || t > newT) {
-            t = newT;
-            mat = std::move(newMat);
-            normal = std::move(newNormal);
-			pos = ray.origin + newT * ray.dir;
-        }
+		// Invariant warning: we assume newT is not negative
+		if (t >= 0.0 && t <= newT) return;
+		t = newT;
+		mat = std::move(newMat);
+		normal = std::move(newNormal);
+		pos = ray.origin + newT * ray.dir;
     }
 
 

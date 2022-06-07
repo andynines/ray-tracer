@@ -22,6 +22,8 @@ Rgb PointLight::shade(Hit& hit, const Vec3& camPos) const {
 	Vec3 reflDir = -reflect(towardsLight, hit.normal);
 	result += hit.mat.ks * localColor.cwiseProduct(hit.mat.specular) * std::pow(std::max(towardsCamera.dot(reflDir), 0.0), hit.mat.shiny);
 
+	result += hit.mat.kt * localColor.cwiseProduct(hit.mat.transmissive) * std::pow(std::max(towardsLight.dot(hit.refracDir), 0.0), hit.mat.highlight);
+
 	return result;
 }
 

@@ -27,24 +27,38 @@ Rgb Scene::calcPxColor(double x, double y) const {
 	return cast(pxRay);
 }
 
-Rgb Scene::cast(const Ray& ray, int reflectionDepth) const {
+Rgb Scene::cast(const Ray& ray, int depth) const {
 	Hit closestHit;
 	hit(ray, closestHit);
-	if (closestHit.t == Hit::noHit) return zero;
+	if (closestHit.t == Hit::noHit) return zerov;
 
-	Rgb color = zero;
+	Rgb color = zerov;
 
-	static constexpr double bias = 1e-3;
-	Vec3 biasedHitPos = closestHit.pos + bias * closestHit.normal;
+	static constexpr double biasFactor = 1e-3;
+	Vec3 bias = biasFactor * closestHit.normal;
 
-	static constexpr int maxReflectionDepth = 5;
-	if (closestHit.mat.reflective > 0.0 && reflectionDepth <= maxReflectionDepth) {
+	static constexpr int maxDepth = 5;
+	if (closestHit.mat.kr > 0.0 && depth <= maxDepth) {
 		Vec3 reflDir = reflect(ray.dir, closestHit.normal);
-		Ray reflectionRay(biasedHitPos, reflDir);
-		color += closestHit.mat.reflective * cast(reflectionRay, reflectionDepth + 1).cwiseProduct(closestHit.mat.specular);
+		Ray reflRay(closestHit.pos + bias, reflDir);
+		color += closestHit.mat.kr * cast(reflRay, depth + 1).cwiseProduct(closestHit.mat.specular);
+	}
+
+	if (closestHit.mat.kt > 0.0 && depth <= maxDepth) {
+		static constexpr double refracRatio = 1.035;
+		bool outside = ray.dir.dot(closestHit.normal) < 0;
+		Vec3 refracDir = refract(ray.dir, closestHit.normal, refracRatio).normalized();
+		if (refracDir.isZero()) refracDir = -ray.dir;
+		Vec3 refracOrigin;
+		if (outside) refracOrigin = closestHit.pos - bias;
+		else refracOrigin = closestHit.pos + bias;
+		Ray refracRay(refracOrigin, refracDir);
+		color += closestHit.mat.kt * cast(refracRay, depth + 1).cwiseProduct(closestHit.mat.transmissive);
+		closestHit.refracDir = refracDir;
 	}
 
 	for (const std::shared_ptr<PointLight>& light : lights) {
+		Vec3 biasedHitPos = closestHit.pos + bias;
 		Vec3 hitToLight = light->getPos() - biasedHitPos;
 		Ray shadowRay(biasedHitPos, hitToLight.normalized());
 		Hit occlusionHit;

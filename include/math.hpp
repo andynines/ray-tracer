@@ -26,18 +26,18 @@ constexpr double maxDouble = std::numeric_limits<double>::max();
 
 static inline const Vec3 nullRgb(minDouble, minDouble, minDouble);
 
-static inline const Vec3 zero(0, 0, 0);
+static inline const Vec3 zerov(0, 0, 0);
 static inline const Vec3 up(0, 1, 0);
 
 constexpr inline double toRad(double deg) {
-    return deg * M_PI / 180;
+    return deg * pi / 180;
 }
 
-constexpr bool isZero(double d) {
+inline bool isZero(double d) {
 	return std::fabs(d) < epsilon;
 }
 
-constexpr double calcPositiveMin(double x, double y) {
+inline double calcPositiveMin(double x, double y) {
 	bool xNegative = x < 0.0;
 	bool yNegative = y < 0.0;
 	if (xNegative && yNegative) return -1;
@@ -48,6 +48,22 @@ constexpr double calcPositiveMin(double x, double y) {
 
 inline Vec3 reflect(const Vec3& d, const Vec3& n) {
 	return d - 2 * (d.dot(n)) * n;
+}
+
+inline Vec3 refract(const Vec3& i, const Vec3& n, double refracRatio) {
+	double cosi = std::clamp(-1.0, 1.0, i.dot(n));
+	Vec3 normal;
+	double eta;
+	if (cosi < 0.0) {
+		cosi = -cosi;
+		normal = n;
+		eta = 1 / refracRatio;
+	} else {
+		normal = -n;
+		eta = refracRatio;
+	}
+	double discr = 1 - eta * eta * (1 - cosi * cosi);
+	return (discr < 0.0) ? zerov : eta * i + (eta * cosi - std::sqrt(discr)) * normal;
 }
 
 #endif //COURSE_PROJECT_MATH_HPP

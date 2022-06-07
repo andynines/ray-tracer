@@ -17,7 +17,7 @@ public:
 	[[nodiscard]] Rgb calcPxColor(double x, double y) const;
 
 private:
-	[[nodiscard]] Rgb cast(const Ray& ray, int reflectionDepth = 0) const;
+	[[nodiscard]] Rgb cast(const Ray& ray, int depth = 0) const;
 	void hit(const Ray& ray, Hit& hit) const;
 
 	Vec3 camPos, projPlaneCenter, right, camUp;

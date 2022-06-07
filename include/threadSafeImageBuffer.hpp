@@ -8,7 +8,7 @@
 
 class ThreadSafeImgBuf {
 public:
-	ThreadSafeImgBuf(int width, int height) : imgBuf(width, height), xLocks(imgBuf.getWidth()) {}
+	ThreadSafeImgBuf(int width, int height) : imgBuf(width, height), xLocks(width) {}
 
 	Rgb& at(int x, int y) {
 		std::lock_guard<std::mutex> lk(xLocks[x]);

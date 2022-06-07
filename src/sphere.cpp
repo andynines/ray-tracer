@@ -19,7 +19,7 @@ void Sphere::hit(const Ray& ray, Hit& closestHit) const {
 }
 
 void Sphere::load() {
-    center = trans * zero;
+    center = trans * zerov;
     radius = (trans.linear() * up).norm();
 }
 

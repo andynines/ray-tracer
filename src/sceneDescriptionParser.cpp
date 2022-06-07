@@ -103,6 +103,9 @@ void SceneDescrParser::defineCommands() {
 		Rgb transmissive = reader.readVec3();
 		currentObj->setTransmissive(kt, transmissive);
 	};
+	commands["highlight"] = [&] {
+		currentObj->setHighlight(reader.readFloat());
+	};
     commands["pointlight"] = [&] {
         Vec3 pos = reader.readVec3();
         Rgb color = reader.readVec3();

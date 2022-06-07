@@ -5,9 +5,9 @@
 
 struct Material {
 	Rgb diffuse, specular, transmissive;
-	double ka, ks, kd, kt, shiny, reflective;
+	double ka, ks, kd, kt, kr, shiny, highlight;
 
-	Material() : ka(0), ks(0), kd(0), kt(0), shiny(0), reflective(0) {}
+	Material() : diffuse(zerov), specular(zerov), transmissive(zerov), ka(0), ks(0), kd(0), kt(0), kr(0), shiny(0), highlight(0) {}
 };
 
 #endif //COURSE_PROJECT_MATERIAL_HPP

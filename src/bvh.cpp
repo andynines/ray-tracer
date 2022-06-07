@@ -146,7 +146,7 @@ void Bvh::computeNormals() {
 		fNormals.emplace_back(n);
 	}
 	for (size_t vi = 0; vi < vertices.size(); vi++) {
-		Vec3 vNormal = zero;
+		Vec3 vNormal = zerov;
 		for (size_t fi = 0; fi < faces.size(); fi++) {
 			const IndexTriple& it = faces[fi];
 			if (vi == it[0] || vi == it[1] || vi == it[2]) {

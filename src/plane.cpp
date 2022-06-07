@@ -9,6 +9,6 @@ void Plane::hit(const Ray& ray, Hit& closestHit) const {
 }
 
 void Plane::load() {
-	point = trans * zero;
+	point = trans * zerov;
 	normal = trans.linear() * up;
 }
