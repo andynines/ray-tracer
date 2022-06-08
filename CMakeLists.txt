@@ -17,6 +17,7 @@ add_executable(ray-tracer
 		${SRC_DIR}/cylinder.cpp
 		${SRC_DIR}/htmlBuilder.cpp
 		${SRC_DIR}/image.cpp
+		${SRC_DIR}/marbleSampler.cpp
 		${SRC_DIR}/math.cpp
 		${SRC_DIR}/plane.cpp
 		${SRC_DIR}/pointLight.cpp
