@@ -1,4 +1,3 @@
-#include "bumpSphere.hpp"
 #include "cylinder.hpp"
 #include "fileTokenReader.hpp"
 #include "plane.hpp"
@@ -50,10 +49,6 @@ void SceneDescrParser::defineCommands() {
 	commands["texsphere"] = [&] {
 		loadCurrentObj();
 		currentObj = std::make_shared<TexSphere>(reader.readString());
-	};
-	commands["bumpsphere"] = [&] {
-		loadCurrentObj();
-		currentObj = std::make_shared<BumpSphere>(reader.readString());
 	};
 	commands["plane"] = [&] {
 		loadCurrentObj();
