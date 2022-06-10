@@ -35,10 +35,6 @@ inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
 }
 
 int main(int argc, char* argv[]) {
-	MarbleSampler marbleSampler;
-	marbleSampler.generateTestImage();
-	return 0;
-
     if (argc == 1) {
         std::cout << "Usage: " << argv[0] << " scene-description-1 scene-description-2 ... scene-description-n" << std::endl;
         return 0;
