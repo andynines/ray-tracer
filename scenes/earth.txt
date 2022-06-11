@@ -1,9 +1,17 @@
 camera 0 0 0 1 0 0
-pointlight 0 0 0 1 1 1
+pointlight 2 2 2 1 1 1
 
-texsphere tex/jupiter.png
+texsphere tex/earth.jpg
 translate 2 0 0
 scale 0.5
+ambient 0.3
+diffuse 0.7 0 0 0
+specular 0 0.8 0.8 0.8
+shiny 10
+
+texsphere tex/moon.jpg
+translate 1.8 0.5 0.5
+scale 0.1
 ambient 0.3
 diffuse 0.7 0 0 0
 specular 0 0.8 0.8 0.8

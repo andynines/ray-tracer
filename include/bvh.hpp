@@ -33,7 +33,7 @@ private:
 	fs::path smf;
 	std::vector<Vec3> vertices, vNormals, centroids;
 	std::vector<IndexTriple> faces;
-	std::vector<Material> mats;
+	std::vector<std::shared_ptr<Material>> mats;
 	std::vector<int> matIndices;
 	NodePtr root;
 

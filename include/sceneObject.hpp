@@ -5,13 +5,16 @@
 #include "material.hpp"
 #include "math.hpp"
 #include "ray.hpp"
+#include "stdFilesystem.hpp"
 
+#include <memory>
 #include <utility>
 #include <vector>
 
 class SceneObj {
 public:
-    SceneObj() { trans.setIdentity(); }
+    SceneObj() : SceneObj(std::make_shared<Material>()) {}
+	explicit SceneObj(std::shared_ptr<Material> mat) : mat(std::move(mat)) { trans.setIdentity(); }
     virtual ~SceneObj() = default;
 
     virtual void hit(const Ray& ray, Hit& closestHit) const = 0;
@@ -23,32 +26,32 @@ public:
 
 	void scale(double c) { trans *= Scaling(c); }
 
-    void setAmbient(double ka) { mat.ka = ka; }
+    void setAmbient(double ka) { mat->ka = ka; }
 
 	void setDiffuse(double kd, Rgb diffuse) {
-		mat.kd = kd;
-		mat.diffuse = std::move(diffuse);
+		mat->kd = kd;
+		mat->diffuse = std::move(diffuse);
 	}
 
 	void setSpecular(double ks, Rgb specular) {
-		mat.ks = ks;
-		mat.specular = std::move(specular);
+		mat->ks = ks;
+		mat->specular = std::move(specular);
 	}
 
-    void setShiny(double s) { mat.shiny = s; }
+    void setShiny(double s) { mat->shiny = s; }
 
-	void setReflective(double r) { mat.kr = r; }
+	void setReflective(double r) { mat->kr = r; }
 
 	void setTransmissive(double kt, Rgb transmissive) {
-		mat.kt = kt;
-		mat.transmissive = std::move(transmissive);
+		mat->kt = kt;
+		mat->transmissive = std::move(transmissive);
 	}
 
-	void setHighlight(double h) { mat.highlight = h; }
+	void setHighlight(double h) { mat->highlight = h; }
 
 protected:
     Transform trans;
-    Material mat;
+    std::shared_ptr<Material> mat;
 };
 
 #endif //COURSE_PROJECT_SCENEOBJECT_HPP

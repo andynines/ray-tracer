@@ -26,7 +26,7 @@ void Bvh::load() {
 	matIndices.insert(matIndices.end(), faces.size() - origNumFaces, static_cast<int>(mats.size()));
 	mats.emplace_back(mat);
 	trans.setIdentity();
-	mat = Material();
+	mat.reset();
 }
 
 void Bvh::setNextSmf(const fs::path& newSmf) {

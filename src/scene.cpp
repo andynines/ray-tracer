@@ -38,13 +38,13 @@ Rgb Scene::cast(const Ray& ray, int depth) const {
 	Vec3 bias = biasFactor * closestHit.normal;
 
 	static constexpr int maxDepth = 5;
-	if (closestHit.mat.kr > 0.0 && depth <= maxDepth) {
+	if (closestHit.mat->kr > 0.0 && depth <= maxDepth) {
 		Vec3 reflDir = reflect(ray.dir, closestHit.normal);
 		Ray reflRay(closestHit.pos + bias, reflDir);
-		color += closestHit.mat.kr * cast(reflRay, depth + 1).cwiseProduct(closestHit.mat.specular);
+		color += closestHit.mat->kr * cast(reflRay, depth + 1).cwiseProduct(closestHit.mat->specular);
 	}
 
-	if (closestHit.mat.kt > 0.0 && depth <= maxDepth) {
+	if (closestHit.mat->kt > 0.0 && depth <= maxDepth) {
 		static constexpr double refracRatio = 1.035;
 		bool outside = ray.dir.dot(closestHit.normal) < 0;
 		Vec3 refracDir = refract(ray.dir, closestHit.normal, refracRatio).normalized();
@@ -53,7 +53,7 @@ Rgb Scene::cast(const Ray& ray, int depth) const {
 		if (outside) refracOrigin = closestHit.pos - bias;
 		else refracOrigin = closestHit.pos + bias;
 		Ray refracRay(refracOrigin, refracDir);
-		color += closestHit.mat.kt * cast(refracRay, depth + 1).cwiseProduct(closestHit.mat.transmissive);
+		color += closestHit.mat->kt * cast(refracRay, depth + 1).cwiseProduct(closestHit.mat->transmissive);
 		closestHit.refracDir = refracDir;
 	}
 

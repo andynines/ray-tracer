@@ -3,7 +3,6 @@
 #include "plane.hpp"
 #include "sceneDescriptionParser.hpp"
 #include "sphere.hpp"
-#include "textureSphere.hpp"
 
 #include <functional>
 #include <string>
@@ -48,7 +47,7 @@ void SceneDescrParser::defineCommands() {
     };
 	commands["texsphere"] = [&] {
 		loadCurrentObj();
-		currentObj = std::make_shared<TexSphere>(reader.readString());
+		currentObj = std::make_shared<Sphere>(reader.readString());
 	};
 	commands["plane"] = [&] {
 		loadCurrentObj();
