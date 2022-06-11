@@ -1,5 +1,6 @@
 #include "bvh.hpp"
 #include "fileTokenReader.hpp"
+#include "marbleMaterial.hpp"
 
 #include <numeric>
 
@@ -26,11 +27,12 @@ void Bvh::load() {
 	matIndices.insert(matIndices.end(), faces.size() - origNumFaces, static_cast<int>(mats.size()));
 	mats.emplace_back(mat);
 	trans.setIdentity();
-	mat.reset();
+	mat = std::make_shared<Material>();
 }
 
-void Bvh::setNextSmf(const fs::path& newSmf) {
+void Bvh::setNextSmf(const fs::path& newSmf, bool marble) {
 	smf = newSmf;
+	if (marble) mat = std::make_shared<MarbleMaterial>();
 }
 
 bool Bvh::isEmpty() const {

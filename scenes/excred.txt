@@ -1,0 +1,103 @@
+camera -1 0 0 1 0 0
+pointlight -2 1 -1 0.7 0.7 0.7
+pointlight -2 1 1 0.5 0.5 0.05
+
+plane
+rotate 90 0 0 1
+translate 0 -4 0
+ambient 0.3
+diffuse 0.7 0.5 0.5 0.5
+specular 0.3 0.7 0.7 0.7
+shiny 10
+reflective 0.9
+
+plane
+rotate 90 0 0 1
+translate 0 4 0
+ambient 0.3
+diffuse 0.7 0.5 0.5 0.5
+specular 0.3 0.7 0.7 0.7
+shiny 10
+reflective 0.9
+
+plane
+rotate 90 1 0 0
+translate 0 2 0
+ambient 0.3
+diffuse 0.7 0.5 0.5 0.5
+specular 0.3 0.7 0.7 0.7
+shiny 10
+reflective 0.9
+
+plane
+rotate 90 1 0 0
+translate 0 -2 0
+ambient 0.3
+diffuse 0.7 0.5 0.5 0.5
+specular 0.3 0.7 0.7 0.7
+shiny 10
+reflective 0.9
+
+plane
+translate 0 -2 0
+ambient 0.3
+diffuse 0.7 0.5 0.5 0.5
+specular 0.3 0.7 0.7 0.7
+shiny 10
+
+plane
+translate 0 2 0
+ambient 0.3
+diffuse 0.7 0.5 0.5 0.5
+specular 0.3 0.7 0.7 0.7
+shiny 10
+
+marblesmf smf/cow.smf
+translate -0.1 -0.2 0
+rotate 180 0 1 0
+ambient 0.3
+diffuse 0.7 0.2 0.9 0.9
+specular 0.1 0.2 0.2 0.5
+shiny 32
+
+smf smf/penguin.smf
+translate 0.2 0.3 -1.7
+ambient 0.3
+diffuse 0.7 0.8 0.1 0.8
+specular 0.3 0.7 0.7 0.7
+shiny 5
+reflective 0.9
+
+smf smf/bunny1000.smf
+translate 1 -0.5 0.77
+rotate -90 0 1 0
+scale 0.5
+ambient 0.2
+diffuse 0.5 0.7 0.7 0.7
+specular 0.5 0.8 0.8 0.8
+shiny 1.5
+
+sphere
+translate 2 1 0
+scale 0.5
+ambient 0.4
+diffuse 0.3 0.5 0.5 0.5
+specular 0.7 0.7 0.7 0.7
+reflective 0.9
+shiny 5
+
+texsphere tex/earth.jpg
+translate 2 1 -1
+scale 0.5
+ambient 0.4
+diffuse 0.3 0.2 0.2 0.7
+specular 0.7 0.7 0.7 0.7
+shiny 32
+
+texsphere tex/jupiter.png
+translate 2 1 1
+scale 0.5
+ambient 0.5
+diffuse 0.3 0.7 0.7 0.2
+specular 0.7 0.5 0.5 0.5
+shiny 20

@@ -62,6 +62,11 @@ void SceneDescrParser::defineCommands() {
         currentObj = bvh;
 		bvh->setNextSmf(reader.readString());
     };
+	commands["marblesmf"] = [&] {
+		loadCurrentObj();
+		currentObj = bvh;
+		bvh->setNextSmf(reader.readString(), true);
+	};
     commands["translate"] = [&] {
         currentObj->translate(reader.readVec3());
     };

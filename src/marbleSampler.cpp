@@ -4,17 +4,6 @@
 #include <random>
 
 MarbleSampler::MarbleSampler() {
-	generate();
-}
-
-Rgb MarbleSampler::sample(double x, double y, double z) const {
-	static constexpr double xPeriod = 1, yPeriod = 0, turbPower = 1;
-	double fxy = x * xPeriod / width + y * yPeriod / height + turbPower * calcTurbulence(x, y, z) / 256.0;
-	double sine = std::fabs(std::sin(fxy * pi));
-	return {sine, sine, sine};
-}
-
-void MarbleSampler::generate() {
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dist(0, 1);
@@ -22,6 +11,13 @@ void MarbleSampler::generate() {
 		for (auto& y : z)
 			for (double& x : y)
 				x = dist(gen);
+}
+
+Rgb MarbleSampler::sample(double x, double y, double z) const {
+	static constexpr double xPeriod = 1, yPeriod = 0, turbPower = 5;
+	double fxy = x * xPeriod / width + y * yPeriod / height + turbPower * calcTurbulence(x, y, z) / 256.0;
+	double sine = std::fabs(std::sin(fxy * pi));
+	return {sine, sine, sine};
 }
 
 double MarbleSampler::smooth(double x, double y, double z) const {
@@ -52,7 +48,7 @@ double MarbleSampler::smooth(double x, double y, double z) const {
 }
 
 double MarbleSampler::calcTurbulence(double x, double y, double z) const {
-	static constexpr double initialSize = 32.0;
+	static constexpr double initialSize = 8.0;
 	double value = 0.0, size = initialSize;
 	while (size >= 1) {
 		value += smooth(x / size, y / size, z / size) * size;

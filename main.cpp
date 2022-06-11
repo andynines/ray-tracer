@@ -5,11 +5,9 @@
 #include "stdFilesystem.hpp"
 #include "timing.hpp"
 
-#include "marbleSampler.hpp" // TODO: REMOVE ME
-
 #include <iostream>
 
-#define PAGE_TITLE ("Assignment 7")
+#define PAGE_TITLE ("Extra Credit")
 
 inline void generateScenesWebpage(const std::vector<fs::path>& sceneDescrs) {
     HtmlBuilder htmlBuilder;

@@ -10,9 +10,8 @@ public:
 	[[nodiscard]] Rgb sample(double x, double y, double z) const;
 
 private:
-	static constexpr int width = Img::res, height = Img::res, depth = 1;
+	static constexpr int width = Img::res, height = Img::res, depth = Img::res;
 
-	void generate();
 	[[nodiscard]] double smooth(double x, double y, double z) const;
 	[[nodiscard]] double calcTurbulence(double x, double y, double z) const;
 
